@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="src/BlogSite.AppHost/BlogSite.AppHost.csproj" />
+  <Project Path="src/BlogSite.ServiceDefaults/BlogSite.ServiceDefaults.csproj" />
+  <Project Path="src/BlogSite.Web/BlogSite.Web.csproj" />
+  <Project Path="tests/BlogSite.Tests/BlogSite.Tests.csproj" />
+</Solution>

@@ -1,0 +1,64 @@
+name: Playwright Tests
+on:
+  push:
+    branches: [ main ]
+    paths-ignore:
+      - '**.md'
+      - 'tests/**'
+  pull_request:
+    branches: [ "*" ]
+    paths-ignore:
+      - '**.md'
+      - 'tests/**'
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: "The reason for running the workflow"
+        required: true
+        default: "Manual run"
+
+jobs:
+  playwright:
+    name: 'Playwright Tests'
+    timeout-minutes: 60    
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+
+      - name: Add .NET tools to PATH
+        run: echo "/github/home/.dotnet/tools" >> $GITHUB_PATH
+
+      - name: Install .NET HTTPS Development Certificate
+        run: |
+          dotnet tool update -g linux-dev-certs
+          dotnet linux-dev-certs install
+
+      - name: Build .NET Solution
+        run: dotnet build
+
+      - name: Install Playwright Browsers
+        run: pwsh e2e/SharpSite.E2E/bin/Debug/net9.0/playwright.ps1 install chromium --with-deps
+
+      - name: Pull Docker image for Database
+        run: docker pull postgres:17.2
+
+      - name: Run your tests
+        run: pwsh ./build-and-test.ps1
+
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        id: test-results
+        if: always()
+        with:
+          files: |
+            playwright-test-results/**/*.xml
+            playwright-test-results/**/*.trx
+            playwright-test-results/**/*.json 
