@@ -2,6 +2,9 @@
   <Project Path="src/BlogSite.AppHost/BlogSite.AppHost.csproj" />
   <Project Path="src/BlogSite.ServiceDefaults/BlogSite.ServiceDefaults.csproj" />
   <Project Path="src/BlogSite.Web/BlogSite.Web.csproj" />
+  <Project Path="src\BlogSite.Data.Postgres\BlogSite.Data.Postgres.csproj" Type="Classic C#" />
+  <Project Path="src\BlogSite.Security.Postgres\BlogSite.Security.Postgres.csproj" Type="Classic C#" />
   <Project Path="src\BlogSite.Shared\BlogSite.Shared.csproj" Type="Classic C#" />
+  <Project Path="src\BlogSite.Tests.E2E\BlogSite.Tests.E2E.csproj" Type="Classic C#" />
   <Project Path="tests\BlogSite.Web.Tests.Bunit\BlogSite.Web.Tests.Bunit.csproj" Type="Classic C#" />
 </Solution>
