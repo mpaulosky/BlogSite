@@ -1,6 +1,7 @@
 using BlogSite.ServiceDefaults;
 using BlogSite.Web;
 using BlogSite.Web.Components;
+using BlogSite.Shared.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,6 +45,16 @@ if (app.Environment.IsDevelopment())
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
+
+// Log if running in Dev Container (Rider/VS Code)
+if (RuntimeEnvironment.IsRunningInDevContainer())
+{
+    app.Logger.LogInformation("Running inside a Dev Container (Rider): RIDER_DEVCONTAINER=true");
+}
+else if (RuntimeEnvironment.IsRunningInContainer())
+{
+    app.Logger.LogInformation("Running inside a container (non-dev)");
+}
 
 app.MapDefaultEndpoints();
 
