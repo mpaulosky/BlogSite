@@ -3,6 +3,10 @@
 {
   "name": "C# (.NET) with Aspire",
   "image": "mcr.microsoft.com/devcontainers/dotnet:9.0",
+  "containerEnv": {
+    "IN_DEVCONTAINER": "true",
+    "RIDER_DEVCONTAINER": "true"
+  },
   "features": {
     "ghcr.io/devcontainers/features/git:1": {},
     "ghcr.io/devcontainers/features/docker-in-docker:2": {},
