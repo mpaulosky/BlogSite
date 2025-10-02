@@ -1,36 +1,23 @@
 public static class PostgresExtensions
 {
-
-	/// <summary>
-	/// A collection of version information used by the containers in this app
-	/// </summary>
-	public static class VERSIONS
-	{
-		public const string POSTGRES = "17.2";
-		public const string PGADMIN = "latest";
-	}
-
-
 	public static
 		(IResourceBuilder<PostgresDatabaseResource> db,
 		IResourceBuilder<ProjectResource> migrationSvc) AddPostgresServices(
-		this IDistributedApplicationBuilder builder,
-		bool testOnly = false)
+			this IDistributedApplicationBuilder builder,
+			bool testOnly = false)
 	{
-
-		var dbServer = builder.AddPostgres("database")
-			.WithImageTag(VERSIONS.POSTGRES);
+		var dbServer = builder.AddPostgres(ServerName)
+			.WithImageTag(Versions.Postgres);
 
 		if (!testOnly)
 		{
 			dbServer = dbServer.WithLifetime(ContainerLifetime.Persistent)
-				.WithDataVolume($"{BlogSite.Data.Postgres.Constants.DBNAME}-data", false)
+				.WithDataVolume($"{ServerName}-data", false)
 				.WithPgAdmin(config =>
 				{
-					config.WithImageTag(VERSIONS.PGADMIN);
+					config.WithImageTag(Versions.Pgadmin);
 					config.WithLifetime(ContainerLifetime.Persistent);
 				});
-
 		}
 		else
 		{
@@ -38,14 +25,22 @@ public static class PostgresExtensions
 				.WithLifetime(ContainerLifetime.Session);
 		}
 
-		var outdb = dbServer.AddDatabase(BlogSite.Data.Postgres.Constants.DBNAME);
+		var outbounddb = dbServer.AddDatabase(DatabaseName);
 
-		var migrationSvc = builder.AddProject<Projects.BlogSite_Data_Postgres_Migration>($"{BlogSite.Data.Postgres.Constants.DBNAME}migrationsvc")
-			.WithReference(outdb)
+		var migrationSvc = builder
+			.AddProject<Projects.BlogSite_Data_Postgres_Migrations>($"{ServerName}migrationsvc")
+			.WithReference(outbounddb)
 			.WaitFor(dbServer);
 
-		return (outdb, migrationSvc);
-
+		return (outbounddb, migrationSvc);
 	}
 
-}
+	/// <summary>
+	///   A collection of version information used by the containers in this app
+	/// </summary>
+	private static class Versions
+	{
+		public const string Postgres = "17.2";
+		public const string Pgadmin = "latest";
+	}
+}	

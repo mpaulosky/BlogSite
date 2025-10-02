@@ -14,13 +14,14 @@ foreach (var arg in args)
 	}
 }
 
-var (db, migrationSvc) = builder.AddPostgresServices(testOnly);
+var (db, migrationSvc) = 
+	builder.AddPostgresServices(testOnly);
 
-builder.AddProject<Projects.BlogSite_Web>("webfrontend")
-		.WithReference(db)
-		.WaitForCompletion(migrationSvc)
-		.WithRunE2ETestsCommand()
-		.WithExternalHttpEndpoints();
+builder.AddProject<Projects.BlogSite_Web>(Website)
+	.WithReference(db)
+	.WaitForCompletion(migrationSvc)
+	.WithRunE2ETestsCommand()
+	.WithExternalHttpEndpoints();
 
 if (testOnly)
 {
@@ -29,10 +30,10 @@ if (testOnly)
 	var theSite = builder.Build();
 	var fileSystemWatcher = new FileSystemWatcher(".", "stop-aspire")
 	{
-			NotifyFilter = NotifyFilters.FileName | NotifyFilters.CreationTime
+		NotifyFilter = NotifyFilters.FileName | NotifyFilters.CreationTime
 	};
 
-	fileSystemWatcher.Created += async (sender, e) =>
+	fileSystemWatcher.Created += async (_, e) =>
 	{
 		if (e.Name == "stop-aspire")
 		{

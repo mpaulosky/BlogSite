@@ -1,30 +1,24 @@
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
-using Microsoft.Extensions.Logging;
-using System.Diagnostics;
-
 public static class RunE2ETestsCommand
 {
-
 	private const string Name = "run-e2e-tests";
 
 	public static IResourceBuilder<ProjectResource> WithRunE2ETestsCommand(
-			this IResourceBuilder<ProjectResource> builder)
+		this IResourceBuilder<ProjectResource> builder)
 	{
 		builder.WithCommand(
-				name: Name,
-				displayName: "Run end to end tests",
-				executeCommand: context => RunTests(),
-				updateState: OnUpdateResourceState,
-				iconName: "BookGlobe",
-				iconVariant: IconVariant.Filled);
+			Name,
+			"Run end to end tests",
+			_ => RunTests(),
+			OnUpdateResourceState,
+			iconName: "BookGlobe",
+			iconVariant: IconVariant.Filled);
 
 		return builder;
 	}
 
 	private static async Task<ExecuteCommandResult> RunTests()
 	{
-		var processStartInfo = new ProcessStartInfo
+		ProcessStartInfo processStartInfo = new()
 		{
 			FileName = "dotnet",
 			Arguments = "test ../../e2e/BlogSite.E2E",
@@ -34,40 +28,39 @@ public static class RunE2ETestsCommand
 			CreateNoWindow = true
 		};
 
-		var process = new Process { StartInfo = processStartInfo };
+		Process process = new() { StartInfo = processStartInfo };
 		process.Start();
 
-		var output = await process.StandardOutput.ReadToEndAsync();
-		var error = await process.StandardError.ReadToEndAsync();
+		string output = await process.StandardOutput.ReadToEndAsync();
+		string error = await process.StandardError.ReadToEndAsync();
 
 		await process.WaitForExitAsync();
 		Console.WriteLine("E2E Tests Output: " + output);
 
 		if (process.ExitCode == 0)
 		{
-			return new ExecuteCommandResult() { Success = true };
+			return new ExecuteCommandResult { Success = true };
 		}
-		else
-		{
-			return new ExecuteCommandResult() { Success = false, ErrorMessage = error };
-		}
+
+		return new ExecuteCommandResult { Success = false, ErrorMessage = error };
 	}
 
-	private static ResourceCommandState OnUpdateResourceState(
-		UpdateCommandStateContext context)
+	private static ResourceCommandState OnUpdateResourceState(UpdateCommandStateContext context)
 	{
-		var logger = context.ServiceProvider.GetRequiredService<ILogger<Program>>();
-
+		var loggerFactory = context.ServiceProvider.GetRequiredService<ILoggerFactory>();
+		ILogger logger = loggerFactory.CreateLogger("AppHost");
+		
 		if (logger.IsEnabled(LogLevel.Information))
 		{
 			logger.LogInformation(
-					"Updating resource state: {ResourceSnapshot}",
-					context.ResourceSnapshot);
+				"Updating resource state: {ResourceSnapshot}",
+				context.ResourceSnapshot);
 		}
 
 		return context.ResourceSnapshot.HealthStatus is HealthStatus.Healthy
-				? ResourceCommandState.Enabled
-				: ResourceCommandState.Disabled;
+			? ResourceCommandState.Enabled
+			: ResourceCommandState.Disabled;
+
 	}
 
 }
