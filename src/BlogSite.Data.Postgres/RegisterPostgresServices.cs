@@ -1,3 +1,4 @@
+using BlogSite.Shared;
 using BlogSite.Shared.Interfaces;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -9,10 +10,12 @@ public class RegisterPostgresServices : IRegisterServices
 {
 	public IHostApplicationBuilder RegisterServices(IHostApplicationBuilder host, bool disableRetry = false)
 	{
+		// Register concrete implementations backed by PostgresSQL
+		host.Services.AddTransient<IArticleRepository, PgArticleRepository>();
+		host.Services.AddTransient<ICategoryRepository, PgCategoryRepository>();
 
-		host.Services.AddTransient<IArticleRepository, ArticleRepository>();
-		host.Services.AddTransient<ICategoryRepository, CategoryRepository>();
-		host.AddNpgsqlDbContext<PgContext>(Constants.DBNAME, configure =>
+		// Use the shared Services constants for database naming
+		host.AddNpgsqlDbContext<PgContext>(Services.DATABASE, configure =>
 		{
 			configure.DisableRetry = disableRetry;
 		});

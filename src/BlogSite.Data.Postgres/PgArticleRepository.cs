@@ -77,7 +77,7 @@ public class PgArticleRepository : IArticleRepository
 				.ToArrayAsync();
 
 		return theArticles.FirstOrDefault(p =>
-				p.PublishedOn.UtcDateTimeOffset.Date == theDate.UtcDateTime.Date);
+				(p.PublishedOn ?? DateTimeOffset.MinValue).UtcDateTime.Date == theDate.UtcDateTime.Date);
 
 	}
 
