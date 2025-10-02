@@ -1,181 +1,219 @@
-# BlogSite Solution
+# BlogSite
 
-## New Aspire and BlazorServer Hosted Application
+[![GitHub](https://img.shields.io/github/license/mpaulosky/BlogSite?style=flat-square&logo=github)](LICENSE.txt)
+[![.NET Build](https://img.shields.io/github/actions/workflow/status/mpaulosky/BlogSite/dotnet.yml?style=flat-square&label=Build)](https://github.com/mpaulosky/BlogSite/actions/workflows/dotnet.yml)
+[![CodeCov](https://img.shields.io/codecov/c/github/mpaulosky/BlogSite/main?style=flat-square&logo=codecov)](https://codecov.io/gh/mpaulosky/BlogSite)
+![.NET version](https://img.shields.io/badge/.NET-9.0-512BD4?style=flat-square&logo=dotnet)
 
-### A tool to Create and Manage Articles using a PostgresSql to store documents. It includes architecture, bunit, unit and integration tests with the integration tests using a docker container for the test PostgresSql database to ensure clean isolated data for the tests
+⭐ If you like this project, star it on GitHub — it helps a lot!
 
-****
-![GitHub](https://img.shields.io/github/license/mpaulosky/BlogSite?logo=github)
-![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/mpaulosky/BlogSite?logo=github)
-[![CodeCov Main](https://codecov.io/gh/mpaulosky/BlogSite/branch/main/graph/badge.svg)](https://codecov.io/gh/mpaulosky/BlogSite)
-****
-[![.NET Build](https://github.com/mpaulosky/BlogSite/actions/workflows/dotnet.yml/badge.svg)](https://github.com/mpaulosky/BlogSite/actions/workflows/dotnet.yml)
-****
-[![Open Issues](https://img.shields.io/github/issues/mpaulosky/BlogSite.svg?style=flatsquare&logo=github&label=Open%20Issues)](https://github.com/mpaulosky/BlogSite/issues)
-[![Closed Issues](https://img.shields.io/github/issues-closed/mpaulosky/BlogSite.svg?style=flatsquare&logo=github&label=Closed%20Issues)](https://github.com/mpaulosky/BlogSite/issues?q=sort%3Aupdated-desc+is%3Aissue+is%3Aclosed)
-[![Open Bug Issues](https://img.shields.io/github/issues/mpaulosky/BlogSite/bug.svg?style=flatsquare&logo=github&label=Open%20Bug%20Issues)](https://github.com/mpaulosky/BlogSite/issues?q=is%3Aissue+is%3Aopen+label%3Abug)
-[![Closed Bug Issues](https://img.shields.io/github/issues-closed/mpaulosky/BlogSite/bug.svg?style=flatsquare&logo=github&label=Closed%20Bug%20Issues)](https://github.com/mpaulosky/BlogSite/issues?q=is%3Aissue+is%3Aclosed+label%3Abug)
-****
-![GitHub pull requests](https://img.shields.io/github/issues-pr/mpaulosky/BlogSite?label=pull%20requests&logo=github)
-![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed/mpaulosky/BlogSite?logo=github)
-![GitHub last commit (branch)](https://img.shields.io/github/last-commit/mpaulosky/BlogSite/main?label=last%20commit%20main&logo=github)
-****
+[Overview](#overview) • [Features](#features) • [Getting Started](#getting-started) • [Architecture](#architecture) • [Testing](#testing)
+
+---
+
+A modern, cloud-native blog management application built with **Blazor Server**, **.NET Aspire**, and **PostgreSQL**. This project demonstrates best practices in serverless architecture, comprehensive testing strategies, and production-ready patterns for building scalable web applications with .NET 9.
+
+> [!TIP]
+> This application is designed to showcase enterprise-grade patterns including CQRS, Vertical Slice Architecture, and comprehensive test coverage with unit, integration, and end-to-end tests.
 
 ## Overview
 
-BlazorApp is a modern, secure, and scalable .NET 9 solution built with Blazor Server, .NET Aspire, and PostgresSQL. It
-demonstrates best practices in architecture, testing, and cloud-native development, including CQRS, Vertical Slice, and
-strong security defaults (HTTPS, CORS, Antiforgery, secure headers, and pluggable authentication providers).
+BlogSite is a full-featured blog management system that enables users to create, manage, and publish articles with categories and rich content. Built on .NET Aspire's cloud-native orchestration, the application leverages modern serverless patterns to deliver a scalable, maintainable solution.
 
-****
+The application uses **Blazor Server** for interactive server-side rendering, providing a responsive user experience without the complexity of client-side JavaScript frameworks. PostgreSQL serves as the primary data store, with Entity Framework Core managing migrations and data access patterns.
 
-## Solution Structure
+### Key Technologies
 
-```
-Web               -- Blazor Server UI (main entrypoint, interactive server rendering)
-AppHost           -- Aspire App Host (orchestration, resource wiring, environment config)
-ServiceDefaults   -- Shared service defaults (OpenTelemetry, health checks, DI, resilience)
-Shared            -- Shared contracts, constants, and service/resource names
-tests             -- Unit, integration, and architecture tests (xUnit, bUnit, Playwright)
-```
+- **.NET 9** with **C# 13** - Latest .NET platform features
+- **.NET Aspire** - Cloud-native orchestration and service defaults
+- **Blazor Server** - Interactive server-side rendering
+- **PostgreSQL 17.2** - Relational database with Entity Framework Core
+- **xUnit** - Unit and integration testing framework
+- **bUnit** - Blazor component testing
+- **TestContainers** - Isolated integration test environments
 
-****
+## Features
 
-## Key Technologies & Features
-
-- **.NET 9** & **.NET Aspire** (cloud-native orchestration)
-- **Blazor Server** (interactive, stream rendering, error boundaries)
-- **Authentication (ASP.NET Core authentication providers)
-- **CQRS & Vertical Slice Architecture**
-- **Dependency Injection** everywhere
-- **OpenTelemetry & Application Insights**
-- **Distributed Caching** (Redis)
-- **Output Caching**
-- **Health Checks**
-- **FluentValidation** for model validation
-- **Unit, Integration, and Architecture Tests** (xUnit, bUnit, Playwright, TestContainers)
-
-****
-
-## Coding & Architecture Standards
-
-This repository enforces the following rules for all .NET code (see `.editorconfig`, StyleCop, and tooling):
-
-- **Modifier Order:** `public`, `private`, `protected`, `internal`, `static`, `readonly`, `const`
-- **Explicit Types:** Use explicit types except where `var` improves clarity
-- **Null Checks:** Use `is null` / `is not null`
-- **Records & Minimal APIs:** Prefer records and minimal APIs
-- **File Scoped Namespaces & Global Usings:** Use file-scoped namespaces and centralized global usings (
-  `GlobalUsings.cs`)
-- **Nullable Reference Types:** Enabled
-- **Pattern Matching:** Preferred
-- **Line Length:** Max 120
-- **Tabs:** Indent size 2
-- **LF Endings, UTF-8 Charset, Final Newline, Trim Trailing Whitespace**
-
-### Naming
-
-- **Interfaces:** Prefix `I` (e.g., `IService`)
-- **Async Methods:** Suffix `Async`
-- **Private Fields:** Prefix `_`
-- **Constants:** UPPER_CASE
-- **Blazor:** Suffix `Component` (for components), `Page` (for pages)
-
-### Security
-
-- **HTTPS, Authentication, Authorization, Antiforgery, CORS, Secure Headers**  
-  See `Web/Program.cs` for implementation.
-
-### Architecture
-
-- **SOLID, Dependency Injection, Async/Await, Strongly Typed Config, CQRS, Vertical Slice, Aspire**
-- **Centralized NuGet Package Versions:** All versions managed in `Directory.Packages.props` at repo root.
-- **Unit, Integration, Architecture Tests:** See `tests/` and `tests/Architecture.Tests.Unit/`
-
-### Blazor
-
-- **State Management, Interactive Server Rendering, Stream Rendering, Virtualization, Error Boundaries**
-- **Component Lifecycle, Cascading Parameters, Render Fragments**
-- See `Web/`, `Web.Virtualization/`, and `MainLayout.razor`
-
-### Documentation
-
-- **XML Docs, Swagger/OpenAPI, Component Docs, README, CONTRIBUTING.md, LICENSE, Code of Conduct**
-- See `docs/README.md`, `docs/CONTRIBUTING.md`, `LICENSE`, `CODE_OF_CONDUCT.md`
-
-### Logging & Monitoring
-
-- **Structured Logging, Health Checks, OpenTelemetry, Application Insights**
-
-### Database
-
-- **Entity Framework Core, MongoDB (see `Persistence.PostgresSql/`), SQL Server**
-- **Async Operations, TestContainers for Integration
-  Testing (`tests/Article Service.Persistence.PostgresSql.Tests.Integration/`), Change Tracking, DbContext Pooling**
-
-### Versioning & Caching
-
-- **API Versioning, Semantic Versioning**
-- **Distributed Cache, Output Caching (`Web/Program.cs`)**
-
-### Middleware
-
-- **Exception Handling, Request Logging, Cross-Cutting Concerns**
-
-### Background Services
-
-- **Background Service Required**
-
-### Environment
-
-- **Environment Config, User Secrets, Key Vault**
-
-### Validation
-
-- **Model Validation, FluentValidation**
-
-### Testing
-
-- **Unit, Integration, Architecture Tests**
-- **xUnit, FluentAssertions, NSubstitute, Moq, bUnit (`tests/Web.Tests.Unit/`), Playwright**
-
-****
+- **Article Management** - Create, edit, and publish blog posts with rich content
+- **Category Organization** - Organize articles with hierarchical categories
+- **Interactive UI** - Blazor Server components with real-time updates
+- **Cloud-Native Architecture** - Built with .NET Aspire for container orchestration
+- **Automated Migrations** - Database schema management with Entity Framework Core
+- **Health Checks** - Built-in monitoring and diagnostics
+- **OpenTelemetry Integration** - Distributed tracing and metrics
+- **Comprehensive Testing** - Unit, integration, and E2E test coverage
+- **Security First** - HTTPS, authentication, CORS, and secure headers by default
 
 ## Getting Started
 
-### Authentication
+### Prerequisites
 
-This application supports ASP.NET Core authentication providers. Configure authentication via user secrets or
-environment variables in the `AppHost` project and ensure the provider-specific settings are present before running the
-application.
+To run this application, you'll need:
+
+- **.NET 9 SDK** - [Download](https://dotnet.microsoft.com/download/dotnet/9.0)
+- **Docker** - Required for PostgreSQL and TestContainers
+- **Visual Studio 2022 / Rider / VS Code** - Recommended for development
 
 ### Running the Application
 
-1. **Requirements:** .NET 9 SDK, Docker (for MongoDB/Redis/TestContainers), Node.js (for Playwright tests)
-2. **Run the App:**
-  - `dotnet run --project AppHost` (or use Visual Studio/Rider launch)
-3. **Browse:** Navigate to the provided endpoint (see console output)
-4. **tests:**
-  - `dotnet test` (runs all unit/integration/architecture tests)
+1. **Clone the repository**
 
-****
+   ```bash
+   git clone https://github.com/mpaulosky/BlogSite.git
+   cd BlogSite
+   ```
 
-## Contribution & Documentation
+2. **Start the application**
 
-- [Code of Conduct](./docs/CODE_OF_CONDUCT.md)
-- [Contributing Guide](./docs/CONTRIBUTING.md)
-- [Architecture & Usage Docs](./README.md)
+   ```bash
+   dotnet run --project src/BlogSite.AppHost
+   ```
 
-****
+   The AppHost will orchestrate all services including PostgreSQL and handle database migrations automatically.
 
-## Software References
+3. **Access the application**
 
-- .NET 9, .NET Aspire
-- Blazor Server, C#, TailwindCSS
-- PostgresSQL, Redis
+   Once started, navigate to the URL displayed in the console output (typically `http://localhost:5000`).
 
-****
+### Running Tests
+
+Execute the full test suite with:
+
+```bash
+dotnet test
+```
+
+This runs:
+- **Unit tests** - Fast, isolated tests for business logic
+- **Integration tests** - Database and service integration tests using TestContainers
+- **bUnit tests** - Blazor component tests
+- **E2E tests** - End-to-end scenarios
+
+## Architecture
+
+BlogSite follows a clean, layered architecture with clear separation of concerns:
+
+### Project Structure
+
+```
+BlogSite/
+├── src/
+│   ├── BlogSite.AppHost/              # .NET Aspire orchestration
+│   ├── BlogSite.Web/                  # Blazor Server UI
+│   ├── BlogSite.ServiceDefaults/      # Shared service configuration
+│   ├── BlogSite.Shared/               # Domain models and contracts
+│   ├── BlogSite.Data.Postgres/        # Data access layer
+│   └── BlogSite.Data.Postgres.Migrations/ # Database migrations service
+└── tests/
+    ├── BlogSite.Web.Tests.Bunit/      # Component tests
+    └── BlogSite.Tests.E2E/            # End-to-end tests
+```
+
+### Design Principles
+
+- **SOLID Principles** - Maintainable, testable code structure
+- **Dependency Injection** - Constructor injection throughout
+- **CQRS Pattern** - Command/Query separation for clarity
+- **Vertical Slice Architecture** - Feature-focused organization
+- **Repository Pattern** - Clean data access abstraction
+- **Service Defaults** - Consistent observability and resilience
+
+### Database
+
+PostgreSQL with Entity Framework Core provides:
+- Automatic migrations on startup
+- Change tracking and concurrency handling
+- Connection pooling and resilience
+- Full async/await support
+
+The `BlogSite.Data.Postgres.Migrations` project runs as a background service, applying pending migrations before the main application starts.
+
+## Testing
+
+BlogSite employs a comprehensive testing strategy:
+
+### Unit Tests
+- Fast, isolated tests for business logic
+- Test domain entities, helpers, and services
+- Located in `tests/` directory
+
+### Integration Tests
+- Database integration with TestContainers
+- Ensures PostgreSQL compatibility
+- Isolated test data per test run
+
+### Component Tests (bUnit)
+- Blazor component behavior verification
+- Render testing and interaction testing
+- Example: `tests/BlogSite.Web.Tests.Bunit/`
+
+### End-to-End Tests
+- Full application scenarios
+- Database and UI interaction
+- Located in `tests/BlogSite.Tests.E2E/`
+
+### Running Specific Tests
+
+```bash
+# Run only unit tests
+dotnet test --filter "FullyQualifiedName~Unit"
+
+# Run only integration tests
+dotnet test --filter "FullyQualifiedName~Integration"
+
+# Run with coverage
+dotnet test /p:CollectCoverage=true
+```
+
+## Code Standards
+
+This project enforces strict coding standards through `.editorconfig` and analysis rules:
+
+- **File-scoped namespaces** and **global usings**
+- **Nullable reference types** enabled
+- **Async/await** for all I/O operations
+- **Pattern matching** over traditional conditionals
+- **Record types** for DTOs and value objects
+- **XML documentation** for public APIs
+- **Centralized package management** in `Directory.Packages.props`
+
+See [`.github/instructions/copilot-instructions.md`](.github/instructions/copilot-instructions.md) for complete coding guidelines.
+
+## Deployment
+
+The application is designed for deployment to Azure or any container orchestration platform:
+
+1. **Container Build** - Dockerfiles included for all services
+2. **.NET Aspire Manifest** - Deploy to Azure Container Apps
+3. **PostgreSQL** - Use Azure Database for PostgreSQL or containerized deployment
+4. **Observability** - Built-in OpenTelemetry for Application Insights
+
+## Dev Container detection
+
+When running the solution inside a Dev Container (Rider or VS Code), this repository sets explicit environment variables from .devcontainer/devcontainer.json:
+
+- RIDER_DEVCONTAINER=true
+- IN_DEVCONTAINER=true
+
+You can detect this in code via the helper BlogSite.Shared.Helpers.RuntimeEnvironment:
+
+- RuntimeEnvironment.IsRunningInDevContainer() -> true when in a Dev Container
+- RuntimeEnvironment.IsRunningInContainer() -> true when in any container
+
+The Web app logs a startup message indicating whether it is running inside a Dev Container.
+
+## Resources
+
+- [.NET Aspire Documentation](https://learn.microsoft.com/dotnet/aspire/)
+- [Blazor Server Documentation](https://learn.microsoft.com/aspnet/core/blazor/)
+- [Entity Framework Core](https://learn.microsoft.com/ef/core/)
+- [PostgreSQL Documentation](https://www.postgresql.org/docs/)
+- [TestContainers for .NET](https://dotnet.testcontainers.org/)
+
+## Contributing
+
+Contributions are welcome! This project follows standard open-source contribution guidelines. Please ensure all tests pass and code follows the established standards before submitting a pull request.
 
 ## License
 
-See [LICENSE](./LICENSE.txt)
+This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.txt) file for details.
