@@ -15,7 +15,7 @@ namespace BlogSite.Shared.Fakes;
 public class FakeCategory
 {
 
-	private const int SEED = 621;
+	private const int Seed = 621;
 
 	/// <summary>
 	///   Generates a new fake <see cref="Category" /> object.
@@ -46,18 +46,18 @@ public class FakeCategory
 	///   Generates a Faker Categories instance configured to generate fake Categories objects.
 	/// </summary>
 	/// <param name="useSeed">Indicates whether to apply a fixed seed for deterministic results.</param>
-	/// <returns>A configured Faker Categories instance.</returns>
+	/// <returns>A Faker Categories instance.</returns>
 	internal static Faker<Category> GenerateFake(bool useSeed = false)
 	{
 
 		Faker<Category>? fake = new Faker<Category>()
-				.RuleFor(x => x.Id, _ => Guid.CreateVersion7())
-				.RuleFor(x => x.CategoryName, _ => GetRandomCategoryName())
-				.RuleFor(x => x.IsArchived, f => f.Random.Bool())
-				.RuleFor(x => x.CreatedOn, _ => DateTime.Now)
-				.RuleFor(x => x.ModifiedOn, _ => DateTime.Now);
+			.RuleFor(x => x.Id, _ => Random.Shared.Next(1, 1000))
+			.RuleFor(x => x.CategoryName, _ => GetRandomCategoryName())
+			.RuleFor(x => x.IsArchived, f => f.Random.Bool())
+			.RuleFor(x => x.CreatedOn, _ => DateTime.Now)
+			.RuleFor(x => x.ModifiedOn, _ => DateTime.Now);
 
-		return useSeed ? fake.UseSeed(SEED) : fake;
+		return useSeed ? fake.UseSeed(Seed) : fake;
 	}
 
 }

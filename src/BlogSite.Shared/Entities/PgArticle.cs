@@ -50,6 +50,12 @@ public class PgArticle
 	public string? CoverImageUrl { get; set; }
 
 	/// <summary>
+	/// Gets the date and time when the article was created.
+	/// </summary> 
+	[Required, Display(Name = "Created On")]
+	public required DateTimeOffset CreatedOn { get; set; }
+
+	/// <summary>
 	/// Gets or sets a value indicating whether the article is published.
 	/// </summary>
 	[Display(Name = "Published")] public bool IsPublished { get; set; }
@@ -80,7 +86,7 @@ public class PgArticle
 	/// <summary>
 	///   Foreign key to the category
 	/// </summary>
-	public Guid CategoryId { get; set; }
+	public int CategoryId { get; set; }
 
 	/// <summary>
 	///   Navigation property to the category entity
@@ -100,6 +106,7 @@ public class PgArticle
 				Title = post.Title,
 				Introduction = post.Introduction,
 				Content = post.Content,
+				CreatedOn = post.CreatedOn,
 				PublishedOn = post.PublishedOn,
 				ModifiedOn = post.ModifiedOn,
 				IsPublished = post.IsPublished,
@@ -124,6 +131,7 @@ public class PgArticle
 				Title = post.Title,
 				Introduction = post.Introduction,
 				Content = post.Content,
+				CreatedOn = post.CreatedOn,
 				PublishedOn = post.PublishedOn,
 				ModifiedOn = post.ModifiedOn,
 				IsPublished = post.IsPublished,

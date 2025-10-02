@@ -16,8 +16,6 @@ global using BlogSite.Shared.Entities;
 
 global using Bogus;
 
-global using FluentValidation;
-
-global using Shared.Validators;
+global using Microsoft.AspNetCore.Identity;
 
 global using static BlogSite.Shared.Helpers.Helpers;

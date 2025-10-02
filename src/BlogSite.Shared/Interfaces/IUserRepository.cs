@@ -5,10 +5,10 @@ namespace BlogSite.Shared.Interfaces;
 public interface IUserRepository
 {
 
-	Task<ApplicationUser> GetUserAsync(ClaimsPrincipal user);
+	Task<BlogSiteUser> GetUserAsync(ClaimsPrincipal user);
 
-	Task<IEnumerable<ApplicationUser>> GetAllUsersAsync();
+	Task<IEnumerable<BlogSiteUser>> GetAllUsersAsync();
 
-	Task UpdateRoleForUserAsync(ApplicationUser user);
+	Task UpdateRoleForUserAsync(BlogSiteUser user);
 
 }
