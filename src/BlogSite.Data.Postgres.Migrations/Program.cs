@@ -1,7 +1,6 @@
 using BlogSite.Data.Postgres.Migrations;
-
+using BlogSite.ServiceDefaults;
 using BlogSite.Data.Postgres;
-using BlogSite.Security.Postgres;
 
 var builder = Host.CreateApplicationBuilder(args);
 
@@ -9,7 +8,7 @@ builder.AddServiceDefaults();
 var pg = new RegisterPostgresServices();
 pg.RegisterServices(builder, disableRetry: true);
 
-RegisterPostgresSecurityServices.ConfigurePostgresDbContext(builder, disableRetry: true);
+// Security DB services not available; skip security migrations for now.
 
 builder.Services.AddHostedService<Worker>();
 

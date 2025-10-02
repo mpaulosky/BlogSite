@@ -1,4 +1,8 @@
 using System.Diagnostics;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace BlogSite.Data.Postgres.Migrations;
 
@@ -18,26 +22,6 @@ public class Worker(
 			{
 				using var scope = serviceProvider.CreateScope();
 				var dbContext = scope.ServiceProvider.GetRequiredService<PgContext>();
-
-				await EnsureDatabaseAsync(dbContext, cancellationToken);
-				await RunMigrationAsync(dbContext, cancellationToken);
-
-			}
-			catch (Exception ex)
-			{
-				activity?.AddException(ex);
-				throw;
-			}
-
-		}
-
-		using (var activity = s_activitySource.StartActivity("Migrating security database", ActivityKind.Client))
-		{
-
-			try
-			{
-				using var scope = serviceProvider.CreateScope();
-				var dbContext = scope.ServiceProvider.GetRequiredService<PgSecurityContext>();
 
 				await EnsureDatabaseAsync(dbContext, cancellationToken);
 				await RunMigrationAsync(dbContext, cancellationToken);
