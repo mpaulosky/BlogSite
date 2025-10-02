@@ -7,7 +7,7 @@
 // Project Name :  Shared
 // =======================================================
 
-namespace Shared.Helpers;
+namespace BlogSite.Shared.Helpers;
 
 /// <summary>
 ///   Provides helper methods for common operations.

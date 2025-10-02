@@ -10,12 +10,16 @@
     <UserSecretsId>833ba8c2-dad3-4018-a1a2-370eeaa9be30</UserSecretsId>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\BlogSite.Web\BlogSite.Web.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\BlogSite.Web\BlogSite.Web.csproj" />
+		<ProjectReference Include="..\BlogSite.Data.Postgres\BlogSite.Data.Postgres.csproj" IsAspireProjectResource="false" />
+		<ProjectReference Include="..\BlogSite.Data.Postgres.Migration\BlogSite.Data.Postgres.Migration.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Aspire.Hosting.AppHost"/>
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Aspire.Hosting.AppHost" />
+		<PackageReference Include="Aspire.Hosting.PostgreSQL" />
+		<PackageReference Include="System.Text.Json" />
+	</ItemGroup>
 
 </Project>

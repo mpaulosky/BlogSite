@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Hosting;
 
-namespace Shared.Interfaces;
+namespace BlogSite.Shared.Interfaces;
 
 /// <summary>
 /// Interface for services that need to register services with the web application.

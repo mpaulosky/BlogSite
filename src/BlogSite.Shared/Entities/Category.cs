@@ -7,7 +7,9 @@
 // Project Name :  Shared
 // =======================================================
 
-namespace Shared.Entities;
+using BlogSite.Shared.Abstractions;
+
+namespace BlogSite.Shared.Entities;
 
 /// <summary>
 ///   Represents a blog category that can be assigned to posts.

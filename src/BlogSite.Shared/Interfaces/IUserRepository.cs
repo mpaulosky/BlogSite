@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 
-namespace Shared.Interfaces;
+namespace BlogSite.Shared.Interfaces;
 
 public interface IUserRepository
 {

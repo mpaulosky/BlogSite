@@ -7,7 +7,7 @@
 // Project Name :  Shared
 // =======================================================
 
-namespace Shared.Entities;
+namespace BlogSite.Shared.Entities;
 
 public static class Roles
 {

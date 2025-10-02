@@ -7,7 +7,9 @@
 // Project Name :  Shared
 // =======================================================
 
-namespace Shared.Fakes;
+using BlogSite.Shared.Models;
+
+namespace BlogSite.Shared.Fakes;
 
 /// <summary>
 ///   Provides fake data generation methods for the <see cref="CategoryDto" /> entity.

@@ -1,7 +1,6 @@
-using SharpSite.Abstractions;
 using System.ComponentModel.DataAnnotations;
 
-namespace SharpSite.Data.Postgres;
+namespace BlogSite.Data.Postgres;
 
 public class PgPage
 {

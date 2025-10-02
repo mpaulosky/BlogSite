@@ -12,6 +12,16 @@ namespace BlogSite.Shared.Interfaces;
 public interface ICategoryRepository
 {
 
-	
+	Task<Category?> GetCategory(int id);
+
+	Task<IEnumerable<Category>> GetCategories();
+
+	Task<IEnumerable<Category>> GetCategories(Expression<Func<Category, bool>> where);
+
+	Task<Category> AddCategory(Category post);
+
+	Task<Category> UpdateCategory(Category post);
+
+	Task ArchiveCategory(int id);
 
 }

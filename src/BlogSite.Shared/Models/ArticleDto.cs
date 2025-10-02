@@ -7,7 +7,7 @@
 // Project Name :  Shared
 // =======================================================
 
-namespace Shared.Models;
+namespace BlogSite.Shared.Models;
 
 /// <summary>
 ///   Data Transfer Object (DTO) representing an article.
@@ -175,36 +175,36 @@ null,
 false
 );
 
-public static ArticleDto FromEntity(Article article)
+public static ArticleDto FromEntity(PgArticle pgArticle)
 {
 return new ArticleDto
 {
-Id = article.Id,
-Title = article.Title,
-Introduction = article.Introduction,
-Content = article.Content,
-CoverImageUrl = article.CoverImageUrl,
-UrlSlug = article.UrlSlug,
+Id = pgArticle.Id,
+Title = pgArticle.Title,
+Introduction = pgArticle.Introduction,
+Content = pgArticle.Content,
+CoverImageUrl = pgArticle.CoverImageUrl,
+UrlSlug = pgArticle.UrlSlug,
 
 // Convert entity navigation properties to DTOs
-Author = article.Author != null 
+Author = pgArticle.Author != null 
 ? new ApplicationUserDto
 {
-Id = article.Author.Id,
-UserName = article.Author.UserName ?? string.Empty,
-Email = article.Author.Email ?? string.Empty,
-DisplayName = article.Author.DisplayName,
-EmailConfirmed = article.Author.EmailConfirmed
+Id = pgArticle.Author.Id,
+UserName = pgArticle.Author.UserName ?? string.Empty,
+Email = pgArticle.Author.Email ?? string.Empty,
+DisplayName = pgArticle.Author.DisplayName,
+EmailConfirmed = pgArticle.Author.EmailConfirmed
 }
 : ApplicationUserDto.Empty,
-Category = article.Category != null 
-? CategoryDto.FromEntity(article.Category) 
+Category = pgArticle.Category != null 
+? CategoryDto.FromEntity(pgArticle.Category) 
 : CategoryDto.Empty,
-CreatedOn = article.CreatedOn,
-ModifiedOn = article.ModifiedOn,
-IsPublished = article.IsPublished,
-PublishedOn = article.PublishedOn,
-IsArchived = article.IsArchived,
+CreatedOn = pgArticle.CreatedOn,
+ModifiedOn = pgArticle.ModifiedOn,
+IsPublished = pgArticle.IsPublished,
+PublishedOn = pgArticle.PublishedOn,
+IsArchived = pgArticle.IsArchived,
 CanEdit = false
 };
 }

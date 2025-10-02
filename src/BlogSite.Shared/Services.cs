@@ -7,7 +7,7 @@
 // Project Name :  Shared
 // =======================================================
 
-namespace Shared;
+namespace BlogSite.Shared;
 
 /// <summary>
 ///   Contains constants for service names and configuration values.

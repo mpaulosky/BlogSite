@@ -7,7 +7,9 @@
 // Project Name :  Shared
 // =======================================================
 
-namespace Shared.Helpers;
+using BlogSite.Shared.Abstractions;
+
+namespace BlogSite.Shared.Helpers;
 
 /// <summary>
 ///   CollectionNames class
@@ -26,7 +28,7 @@ public static class CollectionNames
 		switch (entityName)
 		{
 
-			case "Article": return Result.Ok("articles");
+			case "PgArticle": return Result.Ok("articles");
 
 			case "Category": return Result.Ok("categories");
 

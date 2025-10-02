@@ -7,7 +7,7 @@
 // Project Name :  Shared
 // =======================================================
 
-namespace Shared.Models;
+namespace BlogSite.Shared.Models;
 
 /// <summary>
 ///   Data transfer object representing an application user.

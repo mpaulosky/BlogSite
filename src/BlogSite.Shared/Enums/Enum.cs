@@ -7,7 +7,7 @@
 // Project Name :  Shared
 // =======================================================
 
-namespace Shared.Enums;
+namespace BlogSite.Shared.Enums;
 
 /// <summary>
 ///   Roles enum

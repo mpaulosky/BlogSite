@@ -7,7 +7,7 @@
 // Project Name :  Shared
 // =======================================================
 
-namespace Shared.Fakes;
+namespace BlogSite.Shared.Fakes;
 
 /// <summary>
 ///   Provides fake data generation methods for the <see cref="ApplicationUser" /> entity.

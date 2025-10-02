@@ -8,16 +8,16 @@
 // =======================================================
 
 global using System.ComponentModel.DataAnnotations;
+global using System.Linq.Expressions;
 global using System.Text.RegularExpressions;
 global using System.Web;
+
+global using BlogSite.Shared.Entities;
 
 global using Bogus;
 
 global using FluentValidation;
 
-global using Shared.Abstractions;
-global using Shared.Entities;
-global using Shared.Models;
 global using Shared.Validators;
 
-global using static Shared.Helpers.Helpers;
+global using static BlogSite.Shared.Helpers.Helpers;

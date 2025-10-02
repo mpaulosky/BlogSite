@@ -6,7 +6,7 @@
 // Solution Name : BlazorBlogApplication
 // Project Name :  Shared
 // =======================================================
-namespace Shared.Abstractions;
+namespace BlogSite.Shared.Abstractions;
 
 /// <summary>
 ///   Base class for all entities in the domain model.

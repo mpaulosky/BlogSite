@@ -1,6 +1,6 @@
 ﻿// =======================================================
 // Copyright (c) 2025. All rights reserved.
-// File Name :     Post.cs
+// File Name :     Article.cs
 // Company :       mpaulosky
 // Author :        Matthew Paulosky
 // Solution Name : BlogSite
@@ -12,54 +12,75 @@ namespace BlogSite.Shared.Abstractions;
 /// <summary>
 ///   A blog post.
 /// </summary>
-public class Post
+public class Article
 {
 
 	/// <summary>
 	///   The unique URL-friendly identifier for the blog post.
 	/// </summary>
-	[ Key]
-	[ Required]
-	[ MaxLength(300)]
-	public required string Slug { get; set; } = string.Empty;
+	[Required, Key, MaxLength(300)] public required string Slug { get; init; } = string.Empty;
 
 	/// <summary>
 	///   The title of the blog post.
 	/// </summary>
-	[ Required]
-	[ MaxLength(200)]
-	public required string Title { get; set; } = string.Empty;
+	[Required, MaxLength(200)] public required string Title { get; init; } = string.Empty;
 
 	/// <summary>
 	///   A brief introduction or summary of the blog post.
 	/// </summary>
-	[ Required]
-	[ MaxLength(500)]
-	public required string Introduction { get; set; } = string.Empty;
+	[Required, MaxLength(500)] public required string Introduction { get; init; } = string.Empty;
 
 	/// <summary>
 	///   The main content of the article, typically in HTML format.
 	/// </summary>
-	[Required]
-	public required string Content { get; set; } = string.Empty;
+	[Required] public required string Content { get; init; } = string.Empty;
+	
+	/// <summary>
+	/// Gets or sets the URL of the article's cover image.
+	/// </summary>
+	[Display(Name = "Cover Image URL"), MaxLength(300)] public string? CoverImageUrl { get; init; }
+
+	/// <summary>
+	/// Gets or sets a value indicating whether the article is published.
+	/// </summary>
+	[Display(Name = "Published")] public bool IsPublished { get; init; }
 
 	/// <summary>
 	///   The date the article was published.
 	/// </summary>
 	/// <value></value>
-	public DateTimeOffset? PublishedOn { get; set; }
+	public DateTimeOffset? PublishedOn { get; init; }
 
 	/// <summary>
 	///   The date the article was last modified.
 	/// </summary>
-	public DateTimeOffset? ModifiedOn { get; set; }
+	public DateTimeOffset? ModifiedOn { get; init; }
 
 	/// <summary>
 	///   Indicates whether the article is archived.
 	/// </summary>
 	[Display(Name = "Is Archived")]
-	public bool IsArchived { get; set; }
+	public bool IsArchived { get; init; }
 
+	/// <summary>
+	///   Foreign key to the author (ApplicationUser)
+	/// </summary>
+	public required string AuthorId { get; init; }
+
+	/// <summary>
+	///   Gets or sets the author information of the article.
+	/// </summary>
+	public BlogSiteUser? Author { get; set; }
+
+	/// <summary>
+	///   Foreign key to the category
+	/// </summary>
+	public Guid CategoryId { get; init; }
+
+	/// <summary>
+	///   Gets or sets the category information of the article.
+	/// </summary>
+	public Category? Category { get; set; }
 
 	/// <summary>
 	///   Converts a title into a URL-friendly slug by converting to lowercase, replacing spaces with hyphens, and URL
@@ -71,7 +92,7 @@ public class Post
 	{
 		string slug = title.ToLower().Replace(" ", "-");
 
-		// urlencode the slug
+		// url encode the slug
 		slug = HttpUtility.UrlEncode(slug);
 
 		return slug;

@@ -1,10 +1,10 @@
 using System.Linq.Expressions;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
-using SharpSite.Abstractions;
 
-namespace SharpSite.Data.Postgres;
+namespace BlogSite.Data.Postgres;
 
 public class PgPageRepository : IPageRepository
 {

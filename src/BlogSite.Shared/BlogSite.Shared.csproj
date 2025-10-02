@@ -6,4 +6,26 @@
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 
+	<ItemGroup>
+		<PackageReference Include="Bogus"/>
+		<PackageReference Include="FluentValidation"/>
+		<PackageReference Include="Mapster"/>
+		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore"/>
+		<PackageReference Include="Microsoft.Extensions.Hosting" />
+		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" />
+		<PackageReference Include="WaffleGenerator.Bogus"/>
+	</ItemGroup>
+
+	<ItemGroup>
+		<InternalsVisibleTo Include="Architecture.Tests.Unit"/>
+		<InternalsVisibleTo Include="Shared.Tests.Unit"/>
+		<InternalsVisibleTo Include="Web.Tests.Unit"/>
+		<InternalsVisibleTo Include="Web.Tests"/>
+		<InternalsVisibleTo Include="Web.Tests.Integration"/>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Repositories\" />
+	</ItemGroup>
+
 </Project>

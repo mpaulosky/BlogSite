@@ -7,7 +7,9 @@
 // Project Name :  Shared
 // =======================================================
 
-namespace Shared.Fakes;
+using BlogSite.Shared.Models;
+
+namespace BlogSite.Shared.Fakes;
 
 /// <summary>
 ///   Provides methods to generate fake data for the <see cref="ApplicationUserDto" /> class.

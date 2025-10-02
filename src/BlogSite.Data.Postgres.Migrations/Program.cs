@@ -1,6 +1,7 @@
-using SharpSite.Data.Postgres;
-using SharpSite.Data.Postgres.Migration;
-using SharpSite.Security.Postgres;
+using BlogSite.Data.Postgres.Migrations;
+
+using BlogSite.Data.Postgres;
+using BlogSite.Security.Postgres;
 
 var builder = Host.CreateApplicationBuilder(args);
 

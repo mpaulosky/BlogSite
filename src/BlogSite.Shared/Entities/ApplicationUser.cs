@@ -15,9 +15,7 @@
 // Project Name :  Shared
 // =======================================================
 
-using Microsoft.AspNetCore.Identity;
-
-namespace Shared.Entities;
+namespace BlogSite.Shared.Entities;
 
 public sealed class ApplicationUser : IdentityUser
 {

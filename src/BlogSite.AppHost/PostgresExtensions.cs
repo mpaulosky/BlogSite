@@ -24,7 +24,7 @@ public static class PostgresExtensions
 		if (!testOnly)
 		{
 			dbServer = dbServer.WithLifetime(ContainerLifetime.Persistent)
-				.WithDataVolume($"{SharpSite.Data.Postgres.Constants.DBNAME}-data", false)
+				.WithDataVolume($"{BlogSite.Data.Postgres.Constants.DBNAME}-data", false)
 				.WithPgAdmin(config =>
 				{
 					config.WithImageTag(VERSIONS.PGADMIN);
@@ -38,9 +38,9 @@ public static class PostgresExtensions
 				.WithLifetime(ContainerLifetime.Session);
 		}
 
-		var outdb = dbServer.AddDatabase(SharpSite.Data.Postgres.Constants.DBNAME);
+		var outdb = dbServer.AddDatabase(BlogSite.Data.Postgres.Constants.DBNAME);
 
-		var migrationSvc = builder.AddProject<Projects.SharpSite_Data_Postgres_Migration>($"{SharpSite.Data.Postgres.Constants.DBNAME}migrationsvc")
+		var migrationSvc = builder.AddProject<Projects.BlogSite_Data_Postgres_Migration>($"{BlogSite.Data.Postgres.Constants.DBNAME}migrationsvc")
 			.WithReference(outdb)
 			.WaitFor(dbServer);
 

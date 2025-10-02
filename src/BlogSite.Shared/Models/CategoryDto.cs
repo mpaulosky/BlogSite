@@ -7,7 +7,7 @@
 // Project Name :  Shared
 // =======================================================
 
-namespace Shared.Models;
+namespace BlogSite.Shared.Models;
 
 /// <summary>
 ///   Represents a data transfer object for a category.

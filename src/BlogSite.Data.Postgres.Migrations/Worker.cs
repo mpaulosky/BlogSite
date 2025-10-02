@@ -1,10 +1,6 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Storage;
-using SharpSite.Security.Postgres;
 using System.Diagnostics;
 
-namespace SharpSite.Data.Postgres.Migration;
+namespace BlogSite.Data.Postgres.Migrations;
 
 public class Worker(
 		IServiceProvider serviceProvider,

@@ -27,7 +27,7 @@ public static class RunE2ETestsCommand
 		var processStartInfo = new ProcessStartInfo
 		{
 			FileName = "dotnet",
-			Arguments = "test ../../e2e/SharpSite.E2E",
+			Arguments = "test ../../e2e/BlogSite.E2E",
 			RedirectStandardOutput = true,
 			RedirectStandardError = true,
 			UseShellExecute = false,

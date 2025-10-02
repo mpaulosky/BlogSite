@@ -1,19 +1,26 @@
-using System.Linq.Expressions;
+// =======================================================
+// Copyright (c) 2025. All rights reserved.
+// File Name :     IArticleRepository.cs
+// Company :       mpaulosky
+// Author :        Matthew Paulosky
+// Solution Name : BlogSite
+// Project Name :  BlogSite.Shared
+// =======================================================
 
-namespace Shared.Interfaces;
+namespace BlogSite.Shared.Interfaces;
 
 public interface IArticleRepository
 {
 
-	Task<Article?> GetArticle(string dateString, string slug);
+	Task<PgArticle?> GetArticle(string dateString, string slug);
 
-	Task<IEnumerable<Article>> GetArticles();
+	Task<IEnumerable<PgArticle>> GetArticles();
 
-	Task<IEnumerable<Article>> GetArticles(Expression<Func<Article, bool>> where);
+	Task<IEnumerable<PgArticle>> GetArticles(Expression<Func<PgArticle, bool>> where);
 
-	Task<Article> AddArticle(Article post);
+	Task<PgArticle> AddArticle(PgArticle post);
 
-	Task<Article> UpdateArticle(Article post);
+	Task<PgArticle> UpdateArticle(PgArticle post);
 
 	Task ArchiveArticle(string slug);
 

@@ -1,6 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace SharpSite.Data.Postgres;
+using BlogSite.Shared.Abstractions;
+
+namespace BlogSite.Data.Postgres;
 
 /// <summary>
 /// A postgres specific implementation of a post.
@@ -29,30 +31,30 @@ public class PgPost
 	[Required, MaxLength(11)]
 	public string LanguageCode { get; set; } = "en";
 
-	public static explicit operator PgPost(SharpSite.Abstractions.Post post)
+	public static explicit operator PgPost(Article article)
 	{
 
 		return new PgPost
 		{
-			Slug = post.Slug,
-			Title = post.Title,
-			Description = post.Description,
-			Content = post.Content,
-			Published = post.PublishedDate,
-			LastUpdate = post.LastUpdate,
-			LanguageCode = post.LanguageCode,
+			Slug = article.Slug,
+			Title = article.Title,
+			Description = article.Introduction,
+			Content = article.Content,
+			Published = article.PublishedDate,
+			LastUpdate = article.LastUpdate,
+			LanguageCode = article.LanguageCode,
 		};
 
 	}
 
-	public static explicit operator SharpSite.Abstractions.Post(PgPost post)
+	public static explicit operator Article(PgPost post)
 	{
 
-		return new SharpSite.Abstractions.Post
+		return new Article
 		{
 			Slug = post.Slug,
 			Title = post.Title,
-			Description = post.Description,
+			Introduction = post.Description,
 			Content = post.Content,
 			PublishedDate = post.Published,
 			LastUpdate = post.LastUpdate,

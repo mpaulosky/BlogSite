@@ -7,7 +7,9 @@
 // Project Name :  Shared
 // =======================================================
 
-namespace Shared.Fakes;
+using BlogSite.Shared.Models;
+
+namespace BlogSite.Shared.Fakes;
 
 /// <summary>
 ///   Provides fake data generation methods for the <see cref="ArticleDto" /> entity.
@@ -21,7 +23,7 @@ public static class FakeArticleDto
 	///   Generates a new fake <see cref="ArticleDto" /> object.
 	/// </summary>
 	/// <param name="useSeed">Indicates whether to apply a fixed seed for deterministic results.</param>
-	/// <returns>A single fake <see cref="Article" /> object.</returns>
+	/// <returns>A single fake <see cref="PgArticle" /> object.</returns>
 	public static ArticleDto GetNewArticleDto(bool useSeed = false)
 	{
 
@@ -32,9 +34,9 @@ public static class FakeArticleDto
 	/// <summary>
 	///   Generates a list of fake <see cref="ArticleDto" /> objects.
 	/// </summary>
-	/// <param name="numberRequested">The number of <see cref="Article" /> objects to generate.</param>
+	/// <param name="numberRequested">The number of <see cref="PgArticle" /> objects to generate.</param>
 	/// <param name="useSeed">Indicates whether to apply a fixed seed for deterministic results.</param>
-	/// <returns>A list of fake <see cref="Article" /> objects.</returns>
+	/// <returns>A list of fake <see cref="PgArticle" /> objects.</returns>
 	public static List<ArticleDto> GetArticleDtos(int numberRequested, bool useSeed = false)
 	{
 

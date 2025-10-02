@@ -8,47 +8,57 @@
 // =======================================================
 
 using System.Globalization;
+using System.Linq.Expressions;
 
+using BlogSite.Shared.Entities;
 using BlogSite.Shared.Interfaces;
 
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace BlogSite.Shared.Repositories;
+namespace BlogSite.Data.Postgres;
 
 public class PgArticleRepository : IArticleRepository
 {
 
-	private readonly PgContext Context;
+	private readonly PgContext _context;
 
 	public PgArticleRepository(IServiceProvider serviceProvider)
 	{
-		Context = serviceProvider.CreateScope().ServiceProvider.GetRequiredService<PgContext>();
+		_context = serviceProvider.CreateScope().ServiceProvider.GetRequiredService<PgContext>();
 	}
 
-	public async Task<Article> AddArticle(Article post)
+	public async Task<PgArticle> AddArticle(PgArticle post)
 	{
 		// add a post to the database
-		post.PublishedDate = DateTimeOffset.Now;
-		post.LastUpdate = DateTimeOffset.Now;
-		await Context.Articles.AddAsync((PgArticle)post);
-		await Context.SaveChangesAsync();
+		post.PublishedOn = DateTimeOffset.Now;
+		post.ModifiedOn = DateTimeOffset.Now;
+		await _context.Articles.AddAsync((PgArticle)post);
+		await _context.SaveChangesAsync();
 
 		return post;
 	}
 
-	public async Task DeleteArticle(string slug)
+	public async Task ArchiveArticle(string slug)
 	{
-		// delete a post from the database based on the slug submitted
-		var post = await Context.Articles.FirstOrDefaultAsync(p => p.Slug == slug);
+		// Archive a post in the database based on the slug submitted
+		var post = await _context.Articles.FirstOrDefaultAsync(p => p.Slug == slug);
 
 		if (post != null)
 		{
-			Context.Articles.Remove(post);
-			await Context.SaveChangesAsync();
+
+			// Set the post as archived in the database
+			post.ModifiedOn = DateTimeOffset.Now;
+			post.IsArchived = true;
+
+			_context.Articles.Update((PgArticle)post);
+
+			await _context.SaveChangesAsync();
+
 		}
 	}
 
-	public async Task<Article?> GetArticle(string dateString, string slug)
+	public async Task<PgArticle?> GetArticle(string dateString, string slug)
 	{
 
 		if (string.IsNullOrEmpty(dateString) || string.IsNullOrEmpty(slug))
@@ -60,42 +70,44 @@ public class PgArticleRepository : IArticleRepository
 				DateTimeStyles.AssumeUniversal);
 
 		// get a post from the database based on the slug submitted
-		var theArticles = await Context.Articles
+		var theArticles = await _context.Articles
 				.AsNoTracking()
 				.Where(p => p.Slug == slug)
-				.Select(p => (Article)p)
+				.Select(p => (PgArticle)p)
 				.ToArrayAsync();
 
 		return theArticles.FirstOrDefault(p =>
-				p.PublishedDate.UtcDateTime.Date == theDate.UtcDateTime.Date);
+				p.PublishedOn.UtcDateTimeOffset.Date == theDate.UtcDateTime.Date);
 
 	}
 
-	public async Task<IEnumerable<Article>> GetArticles()
+	public async Task<IEnumerable<PgArticle>> GetArticles()
 	{
 		// get all posts from the database
-		var posts = await Context.Articles.AsNoTracking().ToArrayAsync();
+		var posts = await _context.Articles.AsNoTracking().ToArrayAsync();
 
-		return posts.Select(p => (Article)p);
+		return posts.Select(p => (PgArticle)p);
 	}
 
-	public async Task<IEnumerable<Article>> GetArticles(Expression<Func<Article, bool>> where)
+	public async Task<IEnumerable<PgArticle>> GetArticles(Expression<Func<PgArticle, bool>> where)
 	{
 		// get all posts from the database based on the where clause
-		return await Context.Articles
+		return await _context.Articles
 				.AsNoTracking()
-				.Where(p => where.Compile().Invoke((Article)p))
-				.Select(p => (Article)p)
+				.Where(p => where.Compile().Invoke((PgArticle)p))
+				.Select(p => (PgArticle)p)
 				.ToArrayAsync();
 
 	}
 
-	public async Task<Article> UpdateArticle(Article post)
+	public async Task<PgArticle> UpdateArticle(PgArticle post)
 	{
+
 		// update a post in the database
-		post.LastUpdate = DateTimeOffset.Now;
-		Context.Articles.Update((PgArticle)post);
-		await Context.SaveChangesAsync();
+		post.ModifiedOn = DateTimeOffset.Now;
+
+		_context.Articles.Update((PgArticle)post);
+		await _context.SaveChangesAsync();
 
 		return post;
 

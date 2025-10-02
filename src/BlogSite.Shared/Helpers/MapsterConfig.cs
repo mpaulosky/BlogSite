@@ -9,11 +9,11 @@
 
 #region
 
-using Mapster;
+using BlogSite.Shared.Models;
 
 #endregion
 
-namespace Shared.Helpers;
+namespace BlogSite.Shared.Helpers;
 
 /// <summary>
 ///   Configures Mapster mappings for the Web project.
@@ -23,7 +23,7 @@ public static class MapsterConfig
 
 	public static void RegisterMappings()
 	{
-		TypeAdapterConfig<Article, ArticleDto>.NewConfig()
+		TypeAdapterConfig<PgArticle, ArticleDto>.NewConfig()
 				.Map(dest => dest.Id, src => src.Id)
 				.Map(dest => dest.Title, src => src.Title)
 				.Map(dest => dest.Introduction, src => src.Introduction)

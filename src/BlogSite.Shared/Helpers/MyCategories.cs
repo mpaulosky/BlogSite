@@ -15,7 +15,7 @@
 // Project Name :  Shared
 // =======================================================
 
-namespace Shared.Helpers;
+namespace BlogSite.Shared.Helpers;
 
 /// <summary>
 ///   Contains predefined category names for the blog system.
