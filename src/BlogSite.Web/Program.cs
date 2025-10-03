@@ -1,10 +1,11 @@
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.SignalR;
-using BlogSite.Shared;
 using BlogSite.Data.Postgres;
 using BlogSite.Security.Postgres;
 using BlogSite.ServiceDefaults;
+using BlogSite.Shared;
 using BlogSite.Shared.Entities;
+
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.SignalR;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,10 +18,11 @@ var pgSecurity = new RegisterPostgresSecurityServices();
 
 pgSecurity.RegisterServices(builder);
 
-var appState = builder.AddPluginManagerAndAppState();
+// TODO: Implement AddPluginManagerAndAppState extension method
+// var appState = builder.AddPluginManagerAndAppState();
 
-// add the custom localization features for the application framework
-builder.ConfigureRequestLocalization();
+// TODO: Implement ConfigureRequestLocalization extension method
+// builder.ConfigureRequestLocalization();
 
 builder.Services.AddHttpContextAccessor();
 
@@ -46,9 +48,6 @@ builder.Services.AddOutputCache();
 
 builder.Services.AddMemoryCache();
 
-// add an implementation of IEmailSender that does nothing for BlogSiteUser
-builder.Services.AddTransient<IEmailSender<BlogSiteUser>, IdentityNoOpEmailSender>();
-
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
@@ -67,7 +66,7 @@ app.UseStatusCodePagesWithReExecute("/Error", "?statusCode={0}");
 
 //var pluginManager = await app.ActivatePluginManager(appState);
 
-app.MapRazorComponents<App>()
+app.MapRazorComponents<BlogSite.Web.App>()
 		.AddInteractiveServerRenderMode()
 		.AddAdditionalAssemblies(
 		typeof(PgBlogSiteUser).Assembly

@@ -1,6 +1,6 @@
 ---
 description: Beast Mode 3.1
-tools: ['runInTerminal', 'terminalSelection', 'terminalLastCommand', 'runTasks', 'editFiles', 'runNotebooks', 'search', 'new', 'extensions', 'usages', 'vscodeAPI', 'think', 'problems', 'changes', 'testFailure', 'openSimpleBrowser', 'fetch', 'githubRepo', 'github', 'playwright', 'microsoft-docs']
+tools: ['runCommands', 'runTasks', 'playwright/*', 'microsoft.docs.mcp/*', 'github/*', 'edit', 'runNotebooks', 'search', 'new', 'extensions', 'todos', 'github.vscode-pull-request-github/copilotCodingAgent', 'github.vscode-pull-request-github/activePullRequest', 'github.vscode-pull-request-github/openPullRequest', 'usages', 'vscodeAPI', 'think', 'problems', 'changes', 'testFailure', 'openSimpleBrowser', 'fetch', 'githubRepo']
 ---
 
 # Beast Mode 3.1

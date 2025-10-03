@@ -2,18 +2,18 @@
 global using Microsoft.AspNetCore.Http;
 global using Microsoft.AspNetCore.Identity;
 global using Microsoft.Extensions.Logging;
+
+using System.Diagnostics;
+
+using BlogSite.Shared;
+using BlogSite.Shared.Entities;
+using BlogSite.Shared.Interfaces;
+
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using BlogSite.Abstractions;
-using BlogSite.Abstractions.Base;
-using System.Diagnostics;
-
-using BlogSite.Shared.Interfaces;
-
-using Constants = BlogSite.Shared.Constants;
 
 namespace BlogSite.Security.Postgres;
 
@@ -57,7 +57,7 @@ public class RegisterPostgresSecurityServices : IRegisterServices, IRunAtStartup
 
 	public static void ConfigurePostgresDbContext(IHostApplicationBuilder builder, bool disableRetry)
 	{
-		builder.AddNpgsqlDbContext<PgSecurityContext>(Data.Postgres.Constants.DBNAME, configure =>
+		builder.AddNpgsqlDbContext<PgSecurityContext>(Services.USER_DATABASE, configure =>
 		{
 			configure.DisableRetry = disableRetry;
 		}, configure =>
@@ -80,24 +80,24 @@ public class RegisterPostgresSecurityServices : IRegisterServices, IRunAtStartup
 
 		activity?.Start();
 		var roleMgr = provider.GetRequiredService<RoleManager<IdentityRole>>();
-		var adminExists = await roleMgr.RoleExistsAsync(Constants.Roles.Admin);
+		var adminExists = await roleMgr.RoleExistsAsync(Roles.Admin);
 		if (!adminExists)
 		{
-			await roleMgr.CreateAsync(new IdentityRole(Constants.Roles.Admin));
+			await roleMgr.CreateAsync(new IdentityRole(Roles.Admin));
 			activity?.AddEvent(new ActivityEvent("Created Admin role"));
 		}
 
-		var editorExists = await roleMgr.RoleExistsAsync(Constants.Roles.Editor);
+		var editorExists = await roleMgr.RoleExistsAsync(Roles.Author);
 		if (!editorExists)
 		{
-			await roleMgr.CreateAsync(new IdentityRole(Constants.Roles.Editor));
+			await roleMgr.CreateAsync(new IdentityRole(Roles.Author));
 			activity?.AddEvent(new ActivityEvent("Created Editor role"));
 		}
 
-		var userExists = await roleMgr.RoleExistsAsync(Constants.Roles.User);
+		var userExists = await roleMgr.RoleExistsAsync(Roles.User);
 		if (!userExists)
 		{
-			await roleMgr.CreateAsync(new IdentityRole(Constants.Roles.User));
+			await roleMgr.CreateAsync(new IdentityRole(Roles.User));
 			activity?.AddEvent(new ActivityEvent("Created User role"));
 		}
 
@@ -119,7 +119,7 @@ public class RegisterPostgresSecurityServices : IRegisterServices, IRunAtStartup
 			};
 			var newUserResult = await userManager.CreateAsync(admin, "Admin123!");
 			activity?.AddEvent(new ActivityEvent("Created admin user with password 'Admin123!'"));
-			await userManager.AddToRoleAsync(admin, Constants.Roles.Admin);
+			await userManager.AddToRoleAsync(admin, Roles.Admin);
 			activity?.AddEvent(new ActivityEvent("Assigned admin user to Admin role"));
 		}
 

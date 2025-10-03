@@ -29,7 +29,7 @@ public class BlogSiteUser
 	/// <summary>
 	/// Gets or sets the display name of the user.
 	/// </summary>
-	public required string DisplayName { get; set; }
+	public string DisplayName { get; set; }
 
 	/// <summary>
 	/// Gets the user's login name.

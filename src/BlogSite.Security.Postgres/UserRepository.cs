@@ -1,7 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Security.Claims;
+
+using BlogSite.Shared.Entities;
+using BlogSite.Shared.Interfaces;
+
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using BlogSite.Abstractions;
-using System.Security.Claims;
 
 namespace BlogSite.Security.Postgres;
 
@@ -42,10 +45,8 @@ public class UserRepository(IServiceProvider services) : IUserRepository
 			.GroupJoin(userManager.Roles, x => x.ur!.RoleId, r => r.Id, (x, rs) => new { x.u, x.ur, rs })
 			.SelectMany(
 				x => x.rs.DefaultIfEmpty(),
-				(x, r) => new BlogSiteUser(x.u.Id, x.u.UserName, x.u.Email)
+				(x, r) => new BlogSiteUser(x.u.Id, x.u.DisplayName, x.u.UserName, x.u.Email)
 				{
-					DisplayName = x.u.DisplayName,
-					PhoneNumber = x.u.PhoneNumber,
 					Role = r != null ? r.Name : "No Role Assigned"
 				}
 			).ToListAsync();
@@ -68,8 +69,8 @@ public class UserRepository(IServiceProvider services) : IUserRepository
 		if (existingRole is not null) await userManager.RemoveFromRoleAsync(existingUser, existingRole);
 
 		if (user.Role is not null)
-		await userManager.AddToRoleAsync(existingUser, user.Role);
-		
+			await userManager.AddToRoleAsync(existingUser, user.Role);
+
 
 	}
 }

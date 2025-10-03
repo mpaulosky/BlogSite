@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 namespace BlogSite.Security.Postgres;
 
 // Remove the "else if (EmailSender is IdentityNoOpEmailSender)" block from RegisterConfirmation.razor after updating with a real implementation.
-internal sealed class IdentityNoOpEmailSender : IEmailSender<PgBlogSiteUser>
+public sealed class IdentityNoOpEmailSender : IEmailSender<PgBlogSiteUser>
 {
 	private readonly IEmailSender emailSender = new NoOpEmailSender();
 

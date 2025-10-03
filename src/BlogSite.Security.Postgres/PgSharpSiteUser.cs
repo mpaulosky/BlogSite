@@ -1,9 +1,10 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-using BlogSite.Shared.Interfaces;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 using BlogSite.Shared.Entities;
+using BlogSite.Shared.Interfaces;
+
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace BlogSite.Security.Postgres;
 
@@ -14,10 +15,7 @@ public class PgBlogSiteUser : IdentityUser
 	public required string DisplayName { get; set; }
 
 	public static explicit operator BlogSiteUser(PgBlogSiteUser user) =>
-			new(user.Id, user.UserName, user.Email)
-			{
-				DisplayName = user.DisplayName
-			};
+			new(user.Id, user.DisplayName, user.UserName, user.Email);
 
 	public static explicit operator PgBlogSiteUser(BlogSiteUser user) =>
 		new()
