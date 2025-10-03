@@ -1,61 +1,79 @@
-using BlogSite.ServiceDefaults;
-using BlogSite.Web;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+
 using BlogSite.Web.Components;
-using BlogSite.Shared.Helpers;
+using BlogSite.Web.Components.Account;
+using BlogSite.Web.Data;
 
-var builder = WebApplication.CreateBuilder(args);
+namespace BlogSite.Web;
 
-// Add service defaults & Aspire client integrations.
-builder.AddServiceDefaults();
-
-// Add services to the container.
-builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents();
-
-builder.Services.AddOutputCache();
-
-builder.Services.AddHttpClient<WeatherApiClient>(client =>
-    {
-        // This URL uses "https+http://" to indicate HTTPS is preferred over HTTP.
-        // Learn more about service discovery scheme resolution at https://aka.ms/dotnet/sdschemes.
-        client.BaseAddress = new("https+http://apiservice");
-    });
-
-var app = builder.Build();
-
-if (!app.Environment.IsDevelopment())
+public class Program
 {
-    app.UseExceptionHandler("/Error", createScopeForErrors: true);
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+
+	public static void Main(string[] args)
+	{
+		var builder = WebApplication.CreateBuilder(args);
+
+		// Add services to the container.
+		builder.Services.AddRazorComponents()
+				.AddInteractiveServerComponents();
+
+		builder.Services.AddCascadingAuthenticationState();
+		builder.Services.AddScoped<IdentityUserAccessor>();
+		builder.Services.AddScoped<IdentityRedirectManager>();
+		builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();
+
+		builder.Services.AddAuthentication(options =>
+				{
+					options.DefaultScheme = IdentityConstants.ApplicationScheme;
+					options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
+				})
+				.AddIdentityCookies();
+
+		var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ??
+													throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+
+		builder.Services.AddDbContext<ApplicationDbContext>(options =>
+				options.UseSqlite(connectionString));
+
+		builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
+		builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+				.AddEntityFrameworkStores<ApplicationDbContext>()
+				.AddSignInManager()
+				.AddDefaultTokenProviders();
+
+		builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
+
+		var app = builder.Build();
+
+		// Configure the HTTP request pipeline.
+		if (app.Environment.IsDevelopment())
+		{
+			app.UseMigrationsEndPoint();
+		}
+		else
+		{
+			app.UseExceptionHandler("/Error");
+
+			// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+			app.UseHsts();
+		}
+
+		app.UseHttpsRedirection();
+
+		app.UseAntiforgery();
+
+		app.MapStaticAssets();
+
+		app.MapRazorComponents<App>()
+				.AddInteractiveServerRenderMode();
+
+		// Add additional endpoints required by the Identity /Account Razor components.
+		app.MapAdditionalIdentityEndpoints();
+
+		app.Run();
+	}
+
 }
-
-app.UseHttpsRedirection();
-app.UseAntiforgery();
-app.UseOutputCache();
-
-// Map static assets before other routing
-app.MapStaticAssets();
-
-// Add some logging for development
-if (app.Environment.IsDevelopment())
-{
-    app.Logger.LogInformation("Static assets mapped successfully in Development environment");
-}
-
-app.MapRazorComponents<App>()
-    .AddInteractiveServerRenderMode();
-
-// Log if running in Dev Container (Rider/VS Code)
-if (RuntimeEnvironment.IsRunningInDevContainer())
-{
-    app.Logger.LogInformation("Running inside a Dev Container (Rider): RIDER_DEVCONTAINER=true");
-}
-else if (RuntimeEnvironment.IsRunningInContainer())
-{
-    app.Logger.LogInformation("Running inside a container (non-dev)");
-}
-
-app.MapDefaultEndpoints();
-
-app.Run();

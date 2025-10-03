@@ -1,25 +1,7 @@
 ﻿@page "/"
-@inject IJSRuntime JSRuntime
 
 <PageTitle>Home</PageTitle>
 
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
-
-<div class="alert alert-info" role="alert">
-    <h4 class="alert-heading">Static Assets Test</h4>
-    <p>If Bootstrap CSS is loading correctly via the Assets helper, this alert should have proper Bootstrap styling.</p>
-    <hr>
-    <p class="mb-0">Check the browser's developer tools Network tab to verify static assets are being served with fingerprinting and compression.</p>
-</div>
-
-<button class="btn btn-primary" @onclick="TestAssets">Test Assets Loading</button>
-
-@code {
-    private async Task TestAssets()
-    {
-        // This will help verify if JS assets are loading correctly
-        await JSRuntime.InvokeVoidAsync("console.log", "Static assets test - JS is working!");
-    }
-}
