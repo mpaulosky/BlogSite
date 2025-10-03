@@ -8,10 +8,10 @@
 @using Microsoft.AspNetCore.WebUtilities
 
 
-@inject SignInManager<PgSharpSiteUser> SignInManager
-@inject UserManager<PgSharpSiteUser> UserManager
-@inject IUserStore<PgSharpSiteUser> UserStore
-@inject IEmailSender<PgSharpSiteUser> EmailSender
+@inject SignInManager<PgBlogSiteUser> SignInManager
+@inject UserManager<PgBlogSiteUser> UserManager
+@inject IUserStore<PgBlogSiteUser> UserStore
+@inject IEmailSender<PgBlogSiteUser> EmailSender
 @inject NavigationManager NavigationManager
 @inject IdentityRedirectManager RedirectManager
 @inject ILogger<ExternalLogin> Logger
@@ -174,26 +174,26 @@
         message = $"Error: {string.Join(",", result.Errors.Select(error => error.Description))}";
     }
 
-    private PgSharpSiteUser CreateUser()
+    private PgBlogSiteUser CreateUser()
     {
         try
         {
-            return Activator.CreateInstance<PgSharpSiteUser>();
+            return Activator.CreateInstance<PgBlogSiteUser>();
         }
         catch
         {
-            throw new InvalidOperationException($"Can't create an instance of '{nameof(PgSharpSiteUser)}'. " +
-                $"Ensure that '{nameof(PgSharpSiteUser)}' is not an abstract class and has a parameterless constructor");
+            throw new InvalidOperationException($"Can't create an instance of '{nameof(PgBlogSiteUser)}'. " +
+                $"Ensure that '{nameof(PgBlogSiteUser)}' is not an abstract class and has a parameterless constructor");
         }
     }
 
-    private IUserEmailStore<PgSharpSiteUser> GetEmailStore()
+    private IUserEmailStore<PgBlogSiteUser> GetEmailStore()
     {
         if (!UserManager.SupportsUserEmail)
         {
             throw new NotSupportedException("The default UI requires a user store with email support.");
         }
-        return (IUserEmailStore<PgSharpSiteUser>)UserStore;
+        return (IUserEmailStore<PgBlogSiteUser>)UserStore;
     }
 
     private sealed class InputModel

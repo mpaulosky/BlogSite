@@ -1,6 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 
-namespace SharpSite.Security.Postgres;
+namespace BlogSite.Security.Postgres;
 
 internal sealed class IdentityRedirectManager(NavigationManager navigationManager)
 {

@@ -1,4 +1,4 @@
-﻿namespace SharpSite.Abstractions.Base;
+﻿namespace BlogSite.Shared.Interfaces;
 
 public class RegisterPluginAttribute : Attribute
 {

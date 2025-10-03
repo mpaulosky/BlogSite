@@ -1,79 +1,92 @@
-using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.SignalR;
+using BlogSite.Shared;
+using BlogSite.Data.Postgres;
+using BlogSite.Security.Postgres;
+using BlogSite.ServiceDefaults;
+using BlogSite.Shared.Entities;
 
-using BlogSite.Web.Components;
-using BlogSite.Web.Components.Account;
-using BlogSite.Web.Data;
+var builder = WebApplication.CreateBuilder(args);
 
-namespace BlogSite.Web;
+// Load postgres
+var pg = new RegisterPostgresServices();
 
-public class Program
+pg.RegisterServices(builder);
+
+var pgSecurity = new RegisterPostgresSecurityServices();
+
+pgSecurity.RegisterServices(builder);
+
+var appState = builder.AddPluginManagerAndAppState();
+
+// add the custom localization features for the application framework
+builder.ConfigureRequestLocalization();
+
+builder.Services.AddHttpContextAccessor();
+
+// Add service defaults & Aspire components.
+builder.AddServiceDefaults();
+
+// Configure larger messages to allow upload of packages
+builder.Services.Configure<HubOptions>(options =>
 {
+	options.EnableDetailedErrors = true;
+});
 
-	public static void Main(string[] args)
-	{
-		var builder = WebApplication.CreateBuilder(args);
-
-		// Add services to the container.
-		builder.Services.AddRazorComponents()
-				.AddInteractiveServerComponents();
-
-		builder.Services.AddCascadingAuthenticationState();
-		builder.Services.AddScoped<IdentityUserAccessor>();
-		builder.Services.AddScoped<IdentityRedirectManager>();
-		builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();
-
-		builder.Services.AddAuthentication(options =>
-				{
-					options.DefaultScheme = IdentityConstants.ApplicationScheme;
-					options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
-				})
-				.AddIdentityCookies();
-
-		var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ??
-													throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-
-		builder.Services.AddDbContext<ApplicationDbContext>(options =>
-				options.UseSqlite(connectionString));
-
-		builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
-		builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-				.AddEntityFrameworkStores<ApplicationDbContext>()
-				.AddSignInManager()
-				.AddDefaultTokenProviders();
-
-		builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
-
-		var app = builder.Build();
-
-		// Configure the HTTP request pipeline.
-		if (app.Environment.IsDevelopment())
+// Add services to the container.
+builder.Services.AddRazorComponents()
+		.AddInteractiveServerComponents()
+		.AddCircuitOptions(o =>
 		{
-			app.UseMigrationsEndPoint();
-		}
-		else
-		{
-			app.UseExceptionHandler("/Error");
+			o.DetailedErrors = true;
+		});
 
-			// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-			app.UseHsts();
-		}
 
-		app.UseHttpsRedirection();
+builder.Services.AddOutputCache();
 
-		app.UseAntiforgery();
+builder.Services.AddMemoryCache();
 
-		app.MapStaticAssets();
+// add an implementation of IEmailSender that does nothing for BlogSiteUser
+builder.Services.AddTransient<IEmailSender<BlogSiteUser>, IdentityNoOpEmailSender>();
 
-		app.MapRazorComponents<App>()
-				.AddInteractiveServerRenderMode();
+var app = builder.Build();
 
-		// Add additional endpoints required by the Identity /Account Razor components.
-		app.MapAdditionalIdentityEndpoints();
-
-		app.Run();
-	}
-
+if (!app.Environment.IsDevelopment())
+{
+	app.UseExceptionHandler("/Error", createScopeForErrors: true);
+	// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+	app.UseHsts();
 }
+
+app.UseHttpsRedirection();
+
+app.UseOutputCache();
+
+// add error handlers for page not found
+app.UseStatusCodePagesWithReExecute("/Error", "?statusCode={0}");
+
+//var pluginManager = await app.ActivatePluginManager(appState);
+
+app.MapRazorComponents<App>()
+		.AddInteractiveServerRenderMode()
+		.AddAdditionalAssemblies(
+		typeof(PgBlogSiteUser).Assembly
+		//typeof(Sample.FirstThemePlugin.Theme).Assembly
+		);
+
+app.UseAntiforgery();
+
+pgSecurity.MapEndpoints(app);
+
+//app.MapSiteMap();
+//app.MapRobotsTxt();
+//app.MapRssFeed();
+app.MapDefaultEndpoints();
+
+app.UseRequestLocalization();
+
+await pgSecurity.RunAtStartup(app.Services);
+
+//app.MapFileApi(pluginManager);
+
+app.Run();

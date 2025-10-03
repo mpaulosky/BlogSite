@@ -3,7 +3,7 @@
 /// <summary>
 /// An interface for the application configuration and to access the configuration.
 /// </summary>
-public interface ISharpSiteConfiguration
+public interface IBlogSiteConfiguration
 {
 
 	/// <summary>

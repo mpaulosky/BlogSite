@@ -7,12 +7,15 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using SharpSite.Abstractions;
-using SharpSite.Abstractions.Base;
+using BlogSite.Abstractions;
+using BlogSite.Abstractions.Base;
 using System.Diagnostics;
-using Constants = SharpSite.Abstractions.Constants;
 
-namespace SharpSite.Security.Postgres;
+using BlogSite.Shared.Interfaces;
+
+using Constants = BlogSite.Shared.Constants;
+
+namespace BlogSite.Security.Postgres;
 
 public class RegisterPostgresSecurityServices : IRegisterServices, IRunAtStartup
 {
@@ -36,7 +39,7 @@ public class RegisterPostgresSecurityServices : IRegisterServices, IRunAtStartup
 		.AddIdentityCookies();
 
 		ConfigurePostgresDbContext(builder, disableRetry);
-		builder.Services.AddIdentityCore<PgSharpSiteUser>(options => options.SignIn.RequireConfirmedAccount = true)
+		builder.Services.AddIdentityCore<PgBlogSiteUser>(options => options.SignIn.RequireConfirmedAccount = true)
 				.AddRoles<IdentityRole>()
 				.AddEntityFrameworkStores<PgSecurityContext>()
 				.AddSignInManager()
@@ -46,7 +49,7 @@ public class RegisterPostgresSecurityServices : IRegisterServices, IRunAtStartup
 			.WithTracing(tracing => tracing.AddSource(InitializeUsersActivitySourceName));
 
 
-		builder.Services.AddSingleton<IEmailSender<PgSharpSiteUser>, IdentityNoOpEmailSender>();
+		builder.Services.AddSingleton<IEmailSender<PgBlogSiteUser>, IdentityNoOpEmailSender>();
 
 		return builder;
 
@@ -103,11 +106,11 @@ public class RegisterPostgresSecurityServices : IRegisterServices, IRunAtStartup
 		activity = activitySource.CreateActivity("Inspecting users", ActivityKind.Internal);
 		activity?.Start();
 
-		var userManager = provider.GetRequiredService<UserManager<PgSharpSiteUser>>();
+		var userManager = provider.GetRequiredService<UserManager<PgBlogSiteUser>>();
 		var anyUsers = await userManager.Users.AnyAsync();
 		if (!anyUsers)
 		{
-			var admin = new PgSharpSiteUser
+			var admin = new PgBlogSiteUser
 			{
 				DisplayName = "Admin",
 				UserName = "admin@localhost",

@@ -1,35 +1,35 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using SharpSite.Abstractions;
+using BlogSite.Abstractions;
 using System.Security.Claims;
 
-namespace SharpSite.Security.Postgres;
+namespace BlogSite.Security.Postgres;
 
 public class UserRepository(IServiceProvider services) : IUserRepository
 {
 
-	private SharpSiteUser CurrentUser = null!;
+	private BlogSiteUser CurrentUser = null!;
 
-	public async Task<SharpSiteUser> GetUserAsync(ClaimsPrincipal user)
+	public async Task<BlogSiteUser> GetUserAsync(ClaimsPrincipal user)
 	{
 
 		if (CurrentUser is null)
 		{
 
 			using var scope = services.CreateScope();
-			var userManager = scope.ServiceProvider.GetRequiredService<UserManager<PgSharpSiteUser>>();
+			var userManager = scope.ServiceProvider.GetRequiredService<UserManager<PgBlogSiteUser>>();
 
 			var pgUser = await userManager.GetUserAsync(user);
 			if (pgUser is null) return null!;
 
-			CurrentUser = (SharpSiteUser)pgUser;
+			CurrentUser = (BlogSiteUser)pgUser;
 		}
 
 		return CurrentUser;
 
 	}
 
-	public async Task<IEnumerable<SharpSiteUser>> GetAllUsersAsync()
+	public async Task<IEnumerable<BlogSiteUser>> GetAllUsersAsync()
 	{
 		using var scope = services.CreateScope();
 		var userManager = scope.ServiceProvider.GetRequiredService<PgSecurityContext>();
@@ -42,7 +42,7 @@ public class UserRepository(IServiceProvider services) : IUserRepository
 			.GroupJoin(userManager.Roles, x => x.ur!.RoleId, r => r.Id, (x, rs) => new { x.u, x.ur, rs })
 			.SelectMany(
 				x => x.rs.DefaultIfEmpty(),
-				(x, r) => new SharpSiteUser(x.u.Id, x.u.UserName, x.u.Email)
+				(x, r) => new BlogSiteUser(x.u.Id, x.u.UserName, x.u.Email)
 				{
 					DisplayName = x.u.DisplayName,
 					PhoneNumber = x.u.PhoneNumber,
@@ -53,13 +53,13 @@ public class UserRepository(IServiceProvider services) : IUserRepository
 		return pgUsers;
 	}
 
-	public async Task UpdateRoleForUserAsync(SharpSiteUser user)
+	public async Task UpdateRoleForUserAsync(BlogSiteUser user)
 	{
 
 		if (user is null) return;
 
 		using var scope = services.CreateScope();
-		var userManager = scope.ServiceProvider.GetRequiredService<UserManager<PgSharpSiteUser>>();
+		var userManager = scope.ServiceProvider.GetRequiredService<UserManager<PgBlogSiteUser>>();
 
 		var existingUser = userManager.Users.FirstOrDefault(u => u.Id == user.Id);
 		if (existingUser is null) return;

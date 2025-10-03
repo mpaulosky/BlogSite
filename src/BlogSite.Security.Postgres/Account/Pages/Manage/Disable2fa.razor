@@ -3,7 +3,7 @@
 @using Microsoft.AspNetCore.Identity
 
 
-@inject UserManager<PgSharpSiteUser> UserManager
+@inject UserManager<PgBlogSiteUser> UserManager
 @inject IdentityUserAccessor UserAccessor
 @inject IdentityRedirectManager RedirectManager
 @inject ILogger<Disable2fa> Logger
@@ -31,7 +31,7 @@
 </div>
 
 @code {
-    private PgSharpSiteUser user = default!;
+    private PgBlogSiteUser user = default!;
 
     [CascadingParameter]
     private HttpContext HttpContext { get; set; } = default!;

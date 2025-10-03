@@ -1,8 +1,8 @@
-namespace SharpSite.Security.Postgres;
+namespace BlogSite.Security.Postgres;
 
-internal sealed class IdentityUserAccessor(UserManager<PgSharpSiteUser> userManager, IdentityRedirectManager redirectManager)
+internal sealed class IdentityUserAccessor(UserManager<PgBlogSiteUser> userManager, IdentityRedirectManager redirectManager)
 {
-	public async Task<PgSharpSiteUser> GetRequiredUserAsync(HttpContext context)
+	public async Task<PgBlogSiteUser> GetRequiredUserAsync(HttpContext context)
 	{
 		var user = await userManager.GetUserAsync(context.User);
 

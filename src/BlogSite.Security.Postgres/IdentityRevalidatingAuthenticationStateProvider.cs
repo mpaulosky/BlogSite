@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using System.Security.Claims;
 
-namespace SharpSite.Security.Postgres;
+namespace BlogSite.Security.Postgres;
 
 // This is a server-side AuthenticationStateProvider that revalidates the security stamp for the connected user
 // every 30 minutes an interactive circuit is connected.
@@ -21,11 +21,11 @@ internal sealed class IdentityRevalidatingAuthenticationStateProvider(
 	{
 		// Get the user manager from a new scope to ensure it fetches fresh data
 		await using var scope = scopeFactory.CreateAsyncScope();
-		var userManager = scope.ServiceProvider.GetRequiredService<UserManager<PgSharpSiteUser>>();
+		var userManager = scope.ServiceProvider.GetRequiredService<UserManager<PgBlogSiteUser>>();
 		return await ValidateSecurityStampAsync(userManager, authenticationState.User);
 	}
 
-	private async Task<bool> ValidateSecurityStampAsync(UserManager<PgSharpSiteUser> userManager, ClaimsPrincipal principal)
+	private async Task<bool> ValidateSecurityStampAsync(UserManager<PgBlogSiteUser> userManager, ClaimsPrincipal principal)
 	{
 		var user = await userManager.GetUserAsync(principal);
 		if (user is null)

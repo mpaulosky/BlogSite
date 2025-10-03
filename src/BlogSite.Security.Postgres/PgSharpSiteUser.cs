@@ -1,23 +1,25 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using SharpSite.Abstractions;
+using BlogSite.Shared.Interfaces;
 using System.ComponentModel.DataAnnotations;
 
-namespace SharpSite.Security.Postgres;
+using BlogSite.Shared.Entities;
 
-public class PgSharpSiteUser : IdentityUser
+namespace BlogSite.Security.Postgres;
+
+public class PgBlogSiteUser : IdentityUser
 {
 
 	[PersonalData, Required, MaxLength(50)]
 	public required string DisplayName { get; set; }
 
-	public static explicit operator SharpSiteUser(PgSharpSiteUser user) =>
+	public static explicit operator BlogSiteUser(PgBlogSiteUser user) =>
 			new(user.Id, user.UserName, user.Email)
 			{
 				DisplayName = user.DisplayName
 			};
 
-	public static explicit operator PgSharpSiteUser(SharpSiteUser user) =>
+	public static explicit operator PgBlogSiteUser(BlogSiteUser user) =>
 		new()
 		{
 			Id = user.Id,
@@ -28,7 +30,7 @@ public class PgSharpSiteUser : IdentityUser
 
 }
 
-public class PgSecurityContext : IdentityDbContext<PgSharpSiteUser>
+public class PgSecurityContext : IdentityDbContext<PgBlogSiteUser>
 {
 	public PgSecurityContext(DbContextOptions<PgSecurityContext> options)
 		: base(options)

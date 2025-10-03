@@ -3,8 +3,8 @@
 @using System.ComponentModel.DataAnnotations
 @using Microsoft.AspNetCore.Identity
 
-@inject UserManager<PgSharpSiteUser> UserManager
-@inject SignInManager<PgSharpSiteUser> SignInManager
+@inject UserManager<PgBlogSiteUser> UserManager
+@inject SignInManager<PgBlogSiteUser> SignInManager
 @inject IdentityUserAccessor UserAccessor
 @inject IdentityRedirectManager RedirectManager
 
@@ -38,7 +38,7 @@
 </div>
 
 @code {
-	private PgSharpSiteUser user = default!;
+	private PgBlogSiteUser user = default!;
 	private string? username;
 	private string? phoneNumber;
 

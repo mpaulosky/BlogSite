@@ -5,11 +5,11 @@
 @using System.Text.Encodings.Web
 @using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.WebUtilities
-@using SharpSite.Abstractions
+@using BlogSite.Abstractions
 
 
-@inject UserManager<PgSharpSiteUser> UserManager
-@inject IEmailSender<SharpSiteUser> EmailSender
+@inject UserManager<PgBlogSiteUser> UserManager
+@inject IEmailSender<BlogSiteUser> EmailSender
 @inject IdentityUserAccessor UserAccessor
 @inject NavigationManager NavigationManager
 
@@ -56,7 +56,7 @@
 
 @code {
     private string? message;
-    private PgSharpSiteUser user = default!;
+    private PgBlogSiteUser user = default!;
     private string? email;
     private bool isEmailConfirmed;
 
@@ -90,7 +90,7 @@
             NavigationManager.ToAbsoluteUri("Account/ConfirmEmailChange").AbsoluteUri,
             new Dictionary<string, object?> { ["userId"] = userId, ["email"] = Input.NewEmail, ["code"] = code });
 
-        await EmailSender.SendConfirmationLinkAsync((SharpSiteUser)user, Input.NewEmail, HtmlEncoder.Default.Encode(callbackUrl));
+        await EmailSender.SendConfirmationLinkAsync((BlogSiteUser)user, Input.NewEmail, HtmlEncoder.Default.Encode(callbackUrl));
 
         message = "Confirmation link to change email sent. Please check your email.";
     }
@@ -109,7 +109,7 @@
             NavigationManager.ToAbsoluteUri("Account/ConfirmEmail").AbsoluteUri,
             new Dictionary<string, object?> { ["userId"] = userId, ["code"] = code });
 
-    await EmailSender.SendConfirmationLinkAsync((SharpSiteUser)user, email, HtmlEncoder.Default.Encode(callbackUrl));
+    await EmailSender.SendConfirmationLinkAsync((BlogSiteUser)user, email, HtmlEncoder.Default.Encode(callbackUrl));
 
         message = "Verification email sent. Please check your email.";
     }

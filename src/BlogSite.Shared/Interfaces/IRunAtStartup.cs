@@ -1,7 +1,7 @@
-﻿namespace SharpSite.Abstractions.Base;
+﻿namespace BlogSite.Shared.Interfaces;
 
 /// <summary>
-/// Interface for services that need to run at startup of the web application.
+/// Interface for services that need to run at the startup of the web application.
 /// </summary>
 public interface IRunAtStartup
 {

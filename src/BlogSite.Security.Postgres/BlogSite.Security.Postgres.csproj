@@ -6,4 +6,17 @@
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 
+	<ItemGroup>
+		<PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL"/>
+		<PackageReference Include="Microsoft.AspNetCore.Authorization"/>
+		<PackageReference Include="Microsoft.AspNetCore.Components.Authorization"/>
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web"/>
+		<PackageReference Include="Microsoft.AspNetCore.Identity.UI"/>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\BlogSite.Data.Postgres\BlogSite.Data.Postgres.csproj" />
+	  <ProjectReference Include="..\BlogSite.Shared\BlogSite.Shared.csproj" />
+	</ItemGroup>
+
 </Project>

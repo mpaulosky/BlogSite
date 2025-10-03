@@ -3,8 +3,8 @@
 @using Microsoft.AspNetCore.Identity
 
 
-@inject UserManager<PgSharpSiteUser> UserManager
-@inject SignInManager<PgSharpSiteUser> SignInManager
+@inject UserManager<PgBlogSiteUser> UserManager
+@inject SignInManager<PgBlogSiteUser> SignInManager
 @inject IdentityUserAccessor UserAccessor
 @inject IdentityRedirectManager RedirectManager
 @inject ILogger<ResetAuthenticator> Logger
@@ -36,7 +36,7 @@
 
     private async Task OnSubmitAsync()
     {
-        var user = (PgSharpSiteUser)(await UserAccessor.GetRequiredUserAsync(HttpContext));
+        var user = (PgBlogSiteUser)(await UserAccessor.GetRequiredUserAsync(HttpContext));
         await UserManager.SetTwoFactorEnabledAsync(user, false);
         await UserManager.ResetAuthenticatorKeyAsync(user);
         var userId = await UserManager.GetUserIdAsync(user);

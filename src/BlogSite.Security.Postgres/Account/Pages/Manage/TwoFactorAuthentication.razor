@@ -4,8 +4,8 @@
 @using Microsoft.AspNetCore.Identity
 
 
-@inject UserManager<PgSharpSiteUser> UserManager
-@inject SignInManager<PgSharpSiteUser> SignInManager
+@inject UserManager<PgBlogSiteUser> UserManager
+@inject SignInManager<PgBlogSiteUser> SignInManager
 @inject IdentityUserAccessor UserAccessor
 @inject IdentityRedirectManager RedirectManager
 
@@ -82,7 +82,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        var user = (PgSharpSiteUser)(await UserAccessor.GetRequiredUserAsync(HttpContext));
+        var user = (PgBlogSiteUser)(await UserAccessor.GetRequiredUserAsync(HttpContext));
         canTrack = HttpContext.Features.Get<ITrackingConsentFeature>()?.CanTrack ?? true;
         hasAuthenticator = await UserManager.GetAuthenticatorKeyAsync(user) is not null;
         is2faEnabled = await UserManager.GetTwoFactorEnabledAsync(user);

@@ -7,22 +7,19 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Compile Remove="plugins\**" />
-		<Content Remove="plugins\**" />
-		<EmbeddedResource Remove="plugins\**" />
-		<None Remove="plugins\**" />
-		<InternalsVisibleTo Include="BlogSite.Web.Tests"/>
+		<InternalsVisibleTo Include="BlogSite.Web.Tests.E2E"/>
+		<InternalsVisibleTo Include="BlogSite.Web.Tests.Bunit"/>
+		<InternalsVisibleTo Include="BlogSite.Web.Tests.Unit"/>
 	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="markdig" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid" />
 		<PackageReference Include="Microsoft.Extensions.Localization" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" VersionOverride="9.0.0">
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" VersionOverride="9.0.9">
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
 		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" />
 		<PackageReference Include="Microsoft.Extensions.Caching.Memory" />
 		<PackageReference Include="PSC.Blazor.Components.MarkdownEditor" />

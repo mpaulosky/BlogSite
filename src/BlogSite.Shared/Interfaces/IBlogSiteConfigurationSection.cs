@@ -1,11 +1,11 @@
 ﻿
 namespace BlogSite.Shared.Interfaces;
 
-public interface ISharpSiteConfigurationSection
+public interface IBlogSiteConfigurationSection
 {
 
 	string SectionName { get; }
 
-	Task OnConfigurationChanged(ISharpSiteConfigurationSection? oldConfiguration, IPluginManager pluginManager);
+	Task OnConfigurationChanged(IBlogSiteConfigurationSection? oldConfiguration, IPluginManager pluginManager);
 
 }

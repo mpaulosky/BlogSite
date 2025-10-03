@@ -5,9 +5,9 @@ using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Primitives;
-using SharpSite.Security.Postgres;
-using SharpSite.Security.Postgres.Account.Pages;
-using SharpSite.Security.Postgres.Account.Pages.Manage;
+using BlogSite.Security.Postgres;
+using BlogSite.Security.Postgres.Account.Pages;
+using BlogSite.Security.Postgres.Account.Pages.Manage;
 using System.Security.Claims;
 using System.Text.Json;
 
@@ -24,7 +24,7 @@ internal static class IdentityComponentsEndpointRouteBuilderExtensions
 
 		accountGroup.MapPost("/PerformExternalLogin", (
 				HttpContext context,
-				[FromServices] SignInManager<PgSharpSiteUser> signInManager,
+				[FromServices] SignInManager<PgBlogSiteUser> signInManager,
 				[FromForm] string provider,
 				[FromForm] string returnUrl) =>
 		{
@@ -43,7 +43,7 @@ internal static class IdentityComponentsEndpointRouteBuilderExtensions
 
 		accountGroup.MapPost("/Logout", async (
 				ClaimsPrincipal user,
-				[FromServices] SignInManager<PgSharpSiteUser> signInManager,
+				[FromServices] SignInManager<PgBlogSiteUser> signInManager,
 				[FromForm] string returnUrl) =>
 		{
 			await signInManager.SignOutAsync();
@@ -54,7 +54,7 @@ internal static class IdentityComponentsEndpointRouteBuilderExtensions
 
 		manageGroup.MapPost("/LinkExternalLogin", async (
 				HttpContext context,
-				[FromServices] SignInManager<PgSharpSiteUser> signInManager,
+				[FromServices] SignInManager<PgBlogSiteUser> signInManager,
 				[FromForm] string provider) =>
 		{
 			// Clear the existing external cookie to ensure a clean login process
@@ -74,7 +74,7 @@ internal static class IdentityComponentsEndpointRouteBuilderExtensions
 
 		manageGroup.MapPost("/DownloadPersonalData", async (
 				HttpContext context,
-				[FromServices] UserManager<PgSharpSiteUser> userManager,
+				[FromServices] UserManager<PgBlogSiteUser> userManager,
 				[FromServices] AuthenticationStateProvider authenticationStateProvider) =>
 		{
 			var user = await userManager.GetUserAsync(context.User);
@@ -88,7 +88,7 @@ internal static class IdentityComponentsEndpointRouteBuilderExtensions
 
 			// Only include personal data for download
 			var personalData = new Dictionary<string, string>();
-			var personalDataProps = typeof(PgSharpSiteUser).GetProperties().Where(
+			var personalDataProps = typeof(PgBlogSiteUser).GetProperties().Where(
 									prop => Attribute.IsDefined(prop, typeof(PersonalDataAttribute)));
 			foreach (var p in personalDataProps)
 			{
