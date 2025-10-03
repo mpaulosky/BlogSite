@@ -1,75 +1,159 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/dotnet
 {
-  "name": "C# (.NET) with Aspire",
+  "name": "C# (.NET) with Aspire - Windows PowerShell",
   "image": "mcr.microsoft.com/devcontainers/dotnet:9.0",
   "containerEnv": {
     "IN_DEVCONTAINER": "true",
-    "RIDER_DEVCONTAINER": "true"
+    "RIDER_DEVCONTAINER": "true",
+    "DOTNET_CLI_TELEMETRY_OPTOUT": "1",
+    "DOTNET_SKIP_FIRST_TIME_EXPERIENCE": "1"
   },
   "features": {
-    "ghcr.io/devcontainers/features/git:1": {},
-    "ghcr.io/devcontainers/features/docker-in-docker:2": {},
-    "ghcr.io/dotnet/aspire-devcontainer-feature/dotnetaspire:1": {},
-    "ghcr.io/devcontainers/features/powershell:1": {},
-    "ghcr.io/devcontainers/features/node:1": {
-      "version": "lts"
+    "ghcr.io/devcontainers/features/git:1": {
+      "version": "latest",
+      "ppa": true
     },
-    "ghcr.io/devcontainers/features/azure-cli:1": {}
+    "ghcr.io/devcontainers/features/git-lfs:1": {
+      "version": "latest"
+    },
+    "ghcr.io/devcontainers/features/github-cli:1": {
+      "version": "latest"
+    },
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "version": "latest",
+      "moby": true,
+      "dockerDashComposeVersion": "v2"
+    },
+    "ghcr.io/dotnet/aspire-devcontainer-feature/dotnetaspire:1": {
+      "version": "latest"
+    },
+    "ghcr.io/devcontainers/features/dotnet:2": {
+      "version": "9.0",
+      "installUsingApt": false,
+      "installRuntimeOnly": false
+    },
+    "ghcr.io/devcontainers/features/powershell:1": {
+      "version": "latest"
+    },
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "lts",
+      "nodeGypDependencies": true,
+      "nvmInstallPath": "/usr/local/share/nvm"
+    },
+    "ghcr.io/devcontainers/features/azure-cli:1": {
+      "version": "latest",
+      "installBicep": true,
+      "extensions": "containerapp"
+    },
+    "ghcr.io/devcontainers/features/kubectl-helm-minikube:1": {
+      "version": "latest",
+      "helm": "latest",
+      "minikube": "none"
+    }
   },
   "customizations": {
     "vscode": {
       "settings": {
-        "terminal.integrated.defaultProfile.linux": "bash",
+        "terminal.integrated.defaultProfile.linux": "pwsh",
         "terminal.integrated.profiles.linux": {
-          "bash": {
-            "path": "bash"
-          },
           "pwsh": {
             "path": "pwsh",
-            "icon": "terminal-powershell"
+            "icon": "terminal-powershell",
+            "args": ["-NoLogo"]
+          },
+          "bash": {
+            "path": "bash"
           }
         },
+        "terminal.integrated.automationProfile.linux": {
+          "path": "pwsh"
+        },
+        "powershell.powerShellDefaultVersion": "PowerShell",
         "dotnet.defaultSolution": "disable",
         "omnisharp.enableRoslynAnalyzers": true,
         "omnisharp.enableEditorConfigSupport": true,
+        "omnisharp.enableImportCompletion": true,
+        "omnisharp.organizeImportsOnFormat": true,
+        "dotnet-test-explorer.testProjectPath": "**/*Tests.csproj",
         "files.watcherExclude": {
           "**/bin/**": true,
-          "**/obj/**": true
-        }
+          "**/obj/**": true,
+          "**/.aspire/**": true,
+          "**/node_modules/**": true
+        },
+        "files.exclude": {
+          "**/bin": true,
+          "**/obj": true
+        },
+        "git.enableSmartCommit": true,
+        "git.autofetch": true,
+        "git.confirmSync": false,
+        "git.enableCommitSigning": false
       },
       "extensions": [
         "ms-dotnettools.csharp",
         "ms-dotnettools.csdevkit",
         "ms-dotnettools.vscodeintellicode-csharp",
+        "ms-dotnettools.vscode-dotnet-runtime",
         "ms-azuretools.vscode-docker",
         "ms-kubernetes-tools.vscode-kubernetes-tools",
+        "ms-vscode.powershell",
         "humao.rest-client",
         "davidanson.vscode-markdownlint",
         "editorconfig.editorconfig",
-        "ms-vscode.remote-containers"
+        "ms-vscode.remote-containers",
+        "GitHub.copilot",
+        "GitHub.copilot-chat",
+        "eamodio.gitlens",
+        "formulahendry.dotnet-test-explorer",
+        "streetsidesoftware.code-spell-checker",
+        "redhat.vscode-yaml",
+        "ms-azuretools.vscode-azurecontainerapps",
+        "ms-vscode.azurecli"
       ]
     }
   },
   "mounts": [
-    "source=${localWorkspaceFolder}/.aspire,target=/workspace/.aspire,type=bind",
-    "source=E:\\github,target=/workspace/github,type=bind"
+    "source=${localWorkspaceFolder}/.aspire,target=/workspace/.aspire,type=bind,consistency=cached",
+    "source=E:\\github,target=/workspace/github,type=bind,consistency=cached"
   ],
-  "forwardPorts": [5000, 5001, 8080, 8081, 18888],
+  "forwardPorts": [5000, 5001, 5293, 8080, 8081, 18888],
   "portsAttributes": {
     "5000": {
-      "label": "HTTP",
-      "onAutoForward": "notify"
+      "label": "Web HTTP",
+      "onAutoForward": "notify",
+      "requireLocalPort": false
     },
     "5001": {
-      "label": "HTTPS",
-      "onAutoForward": "notify"
+      "label": "Web HTTPS",
+      "onAutoForward": "notify",
+      "requireLocalPort": false
+    },
+    "5293": {
+      "label": "Test Site",
+      "onAutoForward": "notify",
+      "requireLocalPort": false
+    },
+    "8080": {
+      "label": "AppHost HTTP",
+      "onAutoForward": "silent",
+      "requireLocalPort": false
+    },
+    "8081": {
+      "label": "AppHost HTTPS",
+      "onAutoForward": "silent",
+      "requireLocalPort": false
     },
     "18888": {
       "label": "Aspire Dashboard",
-      "onAutoForward": "openBrowser"
+      "onAutoForward": "openBrowser",
+      "requireLocalPort": false
     }
   },
-  "postCreateCommand": "dotnet --version && dotnet workload list",
-  "remoteUser": "vscode"
+  "postCreateCommand": "pwsh -NoLogo -Command \"Write-Host '=== DevContainer Setup ===' -ForegroundColor Cyan; Write-Host 'Checking .NET SDK...' -ForegroundColor Yellow; dotnet --version; Write-Host 'Checking .NET Workloads...' -ForegroundColor Yellow; dotnet workload list; Write-Host 'Checking Git...' -ForegroundColor Yellow; git --version; Write-Host 'Checking PowerShell...' -ForegroundColor Yellow; pwsh --version; Write-Host 'Configuring Git...' -ForegroundColor Yellow; git config --global core.autocrlf input; git config --global init.defaultBranch main; Write-Host 'DevContainer Ready!' -ForegroundColor Green\"",
+  "postStartCommand": "pwsh -NoLogo -Command \"Write-Host 'DevContainer Started - PowerShell is your default terminal' -ForegroundColor Cyan\"",
+  "remoteUser": "vscode",
+  "updateContentCommand": "pwsh -NoLogo -Command \"dotnet restore\"",
+  "waitFor": "postCreateCommand"
 }

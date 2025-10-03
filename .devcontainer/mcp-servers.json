@@ -1,0 +1,85 @@
+{
+  "$schema": "https://modelcontextprotocol.io/schema/mcp-servers.json",
+  "mcpServers": {
+    "github": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-github"
+      ],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}"
+      },
+      "description": "Provides access to GitHub repositories, issues, pull requests, and other GitHub operations"
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "/workspace"
+      ],
+      "description": "Provides read/write access to the workspace filesystem for file operations"
+    },
+    "postgres": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-postgres",
+        "postgresql://localhost:5432/articlesdb"
+      ],
+      "description": "Provides direct access to PostgreSQL database for queries and schema inspection"
+    },
+    "fetch": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-fetch"
+      ],
+      "description": "Enables HTTP/HTTPS requests for API testing and external service integration"
+    },
+    "git": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-git",
+        "--repository",
+        "/workspace"
+      ],
+      "description": "Provides Git operations including status, diff, commit, and branch management"
+    },
+    "docker": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-docker"
+      ],
+      "description": "Manages Docker containers and images for testing and development"
+    },
+    "azure": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@azure/mcp-server-azure"
+      ],
+      "env": {
+        "AZURE_SUBSCRIPTION_ID": "${AZURE_SUBSCRIPTION_ID}"
+      },
+      "description": "Provides Azure resource management and deployment capabilities"
+    }
+  },
+  "documentation": {
+    "usage": "MCP (Model Context Protocol) servers provide AI assistants with tools and context for development tasks.",
+    "setup": "Install MCP-compatible AI tools (e.g., Claude Desktop, Cursor) and configure them to use this file.",
+    "requirements": [
+      "Node.js and npm (installed via devcontainer features)",
+      "Environment variables: GITHUB_TOKEN, AZURE_SUBSCRIPTION_ID (optional)"
+    ],
+    "notes": [
+      "The filesystem server is scoped to /workspace for security",
+      "PostgreSQL server assumes default Aspire connection string",
+      "GitHub server requires personal access token with appropriate scopes",
+      "Azure server is optional and requires Azure credentials"
+    ]
+  }
+}
