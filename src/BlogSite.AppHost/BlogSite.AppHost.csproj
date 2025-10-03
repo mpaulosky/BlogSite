@@ -13,9 +13,9 @@
 
     <ItemGroup>
 		<ProjectReference Include="..\BlogSite.Shared\BlogSite.Shared.csproj" IsAspireProjectResource="false" />
-		<ProjectReference Include="..\BlogSite.Web\BlogSite.Web.csproj" />
 		<ProjectReference Include="..\BlogSite.Data.Postgres\BlogSite.Data.Postgres.csproj" IsAspireProjectResource="false" />
 		<ProjectReference Include="..\BlogSite.Data.Postgres.Migrations\BlogSite.Data.Postgres.Migrations.csproj" />
+		<ProjectReference Include="..\BlogSite.Web\BlogSite.Web.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

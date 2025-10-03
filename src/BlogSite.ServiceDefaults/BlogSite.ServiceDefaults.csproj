@@ -19,6 +19,4 @@
 		<PackageReference Include="OpenTelemetry.Instrumentation.Runtime"/>
 	</ItemGroup>
 
-		<!-- Removed ProjectReference to BlogSite.AppHost to break circular dependency -->
-
 </Project>

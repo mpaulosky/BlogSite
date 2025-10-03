@@ -35,7 +35,6 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\..\src\BlogSite.Shared\BlogSite.Shared.csproj" />
-	  <ProjectReference Include="..\..\src\BlogSite.Web\BlogSite.Web.csproj" />
 	</ItemGroup>
 
 
