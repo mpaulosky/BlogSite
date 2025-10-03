@@ -9,9 +9,12 @@ public static class RunE2ETestsCommand
 			Name,
 			"Run end to end tests",
 			_ => RunTests(),
-			OnUpdateResourceState,
-			iconName: "BookGlobe",
-			iconVariant: IconVariant.Filled);
+			new CommandOptions
+			{
+				UpdateState = OnUpdateResourceState,
+				IconName = "BookGlobe",
+				IconVariant = IconVariant.Filled
+			});
 
 		return builder;
 	}
@@ -49,7 +52,7 @@ public static class RunE2ETestsCommand
 	{
 		var loggerFactory = context.ServiceProvider.GetRequiredService<ILoggerFactory>();
 		ILogger logger = loggerFactory.CreateLogger("AppHost");
-		
+
 		if (logger.IsEnabled(LogLevel.Information))
 		{
 			logger.LogInformation(
