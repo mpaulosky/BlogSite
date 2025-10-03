@@ -166,7 +166,7 @@ git config --global init.defaultBranch main  # Default branch name
 The following environment variables are set:
 
 - `IN_DEVCONTAINER=true` - Detects DevContainer runtime
-- `RIDER_DEVCONTAINER=true` - JetBrider Rider compatibility
+- `RIDER_DEVCONTAINER=true` - JetBrains Rider compatibility
 - `DOTNET_CLI_TELEMETRY_OPTOUT=1` - Disable telemetry
 - `DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1` - Skip welcome messages
 
