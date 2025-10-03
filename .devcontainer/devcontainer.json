@@ -5,7 +5,7 @@
   "image": "mcr.microsoft.com/devcontainers/dotnet:9.0",
   "containerEnv": {
     "IN_DEVCONTAINER": "true",
-    "RIDER_DEVCONTAINER": "true",
+    "JETBRAINS_DEVCONTAINER": "true",
     "DOTNET_CLI_TELEMETRY_OPTOUT": "1",
     "DOTNET_SKIP_FIRST_TIME_EXPERIENCE": "1"
   },
