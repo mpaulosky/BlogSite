@@ -1,6 +1,6 @@
 <Project>
-  <PropertyGroup>
-    <!-- Avoid importing package build/props/targets to sidestep missing NuGet cache issues for analyzer/buildTransitive packages -->
-    <DisablePackageImports>true</DisablePackageImports>
-  </PropertyGroup>
+	<PropertyGroup>
+		<!-- Avoid importing package build/props/targets to sidestep missing NuGet cache issues for analyzer/buildTransitive packages -->
+		<DisablePackageImports>true</DisablePackageImports>
+	</PropertyGroup>
 </Project>

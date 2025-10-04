@@ -295,6 +295,10 @@ FakesAssemblies/
 .ntvs_analysis.dat
 node_modules/
 
+# NPM packages and generated files
+package-lock.json
+wwwroot/css/dist.css
+
 # Visual Studio 6 build log
 *.plg
 
