@@ -3,8 +3,8 @@
 // File Name :     FakeApplicationUserDto.cs
 // Company :       mpaulosky
 // Author :        Matthew Paulosky
-// Solution Name : BlazorBlogApplication
-// Project Name :  Shared
+// Solution Name : BlogSite
+// Project Name :  BlogSite.Shared
 // =======================================================
 
 using BlogSite.Shared.Models;
@@ -17,7 +17,7 @@ namespace BlogSite.Shared.Fakes;
 public static class FakeApplicationUserDto
 {
 
-	private const int SEED = 621;
+	private const int Seed = 621;
 
 	/// <summary>
 	///   Generates a new fake <see cref="ApplicationUserDto" /> object.
@@ -59,7 +59,7 @@ public static class FakeApplicationUserDto
 				.RuleFor(x => x.DisplayName, (f, u) => f.Name.FirstName())
 				.RuleFor(x => x.EmailConfirmed, f => f.Random.Bool());
 
-		return useSeed ? fake.UseSeed(SEED) : fake;
+		return useSeed ? fake.UseSeed(Seed) : fake;
 
 	}
 

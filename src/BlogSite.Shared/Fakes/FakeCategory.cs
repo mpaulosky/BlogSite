@@ -3,8 +3,8 @@
 // File Name :     FakeCategory.cs
 // Company :       mpaulosky
 // Author :        Matthew Paulosky
-// Solution Name : BlazorBlogApplication
-// Project Name :  Shared
+// Solution Name : BlogSite
+// Project Name :  BlogSite.Shared
 // =======================================================
 
 namespace BlogSite.Shared.Fakes;
@@ -51,11 +51,11 @@ public class FakeCategory
 	{
 
 		Faker<Category>? fake = new Faker<Category>()
-			.RuleFor(x => x.Id, _ => Random.Shared.Next(1, 1000))
-			.RuleFor(x => x.CategoryName, _ => GetRandomCategoryName())
-			.RuleFor(x => x.IsArchived, f => f.Random.Bool())
-			.RuleFor(x => x.CreatedOn, _ => DateTime.Now)
-			.RuleFor(x => x.ModifiedOn, _ => DateTime.Now);
+				.RuleFor(x => x.Id, _ => Random.Shared.Next(1, 1000))
+				.RuleFor(x => x.CategoryName, _ => GetRandomCategoryName())
+				.RuleFor(x => x.IsArchived, f => f.Random.Bool())
+				.RuleFor(x => x.CreatedOn, _ => DateTime.Now)
+				.RuleFor(x => x.ModifiedOn, _ => DateTime.Now);
 
 		return useSeed ? fake.UseSeed(Seed) : fake;
 	}

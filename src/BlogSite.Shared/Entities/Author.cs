@@ -1,6 +1,6 @@
-﻿// =======================================================
+// =======================================================
 // Copyright (c) 2025. All rights reserved.
-// File Name :     BlogSiteUser.cs
+// File Name :     Author.cs
 // Company :       mpaulosky
 // Author :        Matthew Paulosky
 // Solution Name : BlogSite
@@ -9,20 +9,18 @@
 
 namespace BlogSite.Shared.Entities;
 
-/// <summary>
-///   Represents a user in the blog site system with basic user information and role.
-/// </summary>
-public class BlogSiteUser
+public class Author
 {
 
+	
 	/// <summary>
-	///   Initializes a new instance of the <see cref="BlogSiteUser" /> class.
+	///   Initializes a new instance of the <see cref="Author" /> class.
 	/// </summary>
 	/// <param name="id">The unique identifier for the user.</param>
 	/// <param name="displayName"></param>
 	/// <param name="userName">The user's login name.</param>
 	/// <param name="email">The user's email address.</param>
-	public BlogSiteUser(string id, string displayName, string? userName, string? email)
+	public Author(string id, string displayName, string? userName, string? email)
 	{
 		Id = id;
 		DisplayName = displayName;

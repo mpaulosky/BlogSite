@@ -1,20 +1,28 @@
+// =======================================================
+// Copyright (c) 2025. All rights reserved.
+// File Name :     RunE2ETestsCommand.cs
+// Company :       mpaulosky
+// Author :        Matthew Paulosky
+// Solution Name : BlogSite
+// Project Name :  BlogSite.AppHost
+// =======================================================
+
 public static class RunE2ETestsCommand
 {
+
 	private const string Name = "run-e2e-tests";
 
 	public static IResourceBuilder<ProjectResource> WithRunE2ETestsCommand(
-		this IResourceBuilder<ProjectResource> builder)
+			this IResourceBuilder<ProjectResource> builder)
 	{
 		builder.WithCommand(
-			Name,
-			"Run end to end tests",
-			_ => RunTests(),
-			new CommandOptions
-			{
-				UpdateState = OnUpdateResourceState,
-				IconName = "BookGlobe",
-				IconVariant = IconVariant.Filled
-			});
+				Name,
+				"Run end to end tests",
+				_ => RunTests(),
+				new CommandOptions
+				{
+						UpdateState = OnUpdateResourceState, IconName = "BookGlobe", IconVariant = IconVariant.Filled
+				});
 
 		return builder;
 	}
@@ -23,12 +31,12 @@ public static class RunE2ETestsCommand
 	{
 		ProcessStartInfo processStartInfo = new()
 		{
-			FileName = "dotnet",
-			Arguments = "test ../../e2e/BlogSite.E2E",
-			RedirectStandardOutput = true,
-			RedirectStandardError = true,
-			UseShellExecute = false,
-			CreateNoWindow = true
+				FileName = "dotnet",
+				Arguments = "test ../../e2e/BlogSite.E2E",
+				RedirectStandardOutput = true,
+				RedirectStandardError = true,
+				UseShellExecute = false,
+				CreateNoWindow = true
 		};
 
 		Process process = new() { StartInfo = processStartInfo };
@@ -50,19 +58,19 @@ public static class RunE2ETestsCommand
 
 	private static ResourceCommandState OnUpdateResourceState(UpdateCommandStateContext context)
 	{
-		var loggerFactory = context.ServiceProvider.GetRequiredService<ILoggerFactory>();
+		ILoggerFactory loggerFactory = context.ServiceProvider.GetRequiredService<ILoggerFactory>();
 		ILogger logger = loggerFactory.CreateLogger("AppHost");
 
 		if (logger.IsEnabled(LogLevel.Information))
 		{
 			logger.LogInformation(
-				"Updating resource state: {ResourceSnapshot}",
-				context.ResourceSnapshot);
+					"Updating resource state: {ResourceSnapshot}",
+					context.ResourceSnapshot);
 		}
 
 		return context.ResourceSnapshot.HealthStatus is HealthStatus.Healthy
-			? ResourceCommandState.Enabled
-			: ResourceCommandState.Disabled;
+				? ResourceCommandState.Enabled
+				: ResourceCommandState.Disabled;
 
 	}
 

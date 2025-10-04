@@ -1,7 +1,5 @@
 ﻿@page "/Account/Manage"
-
 @using System.ComponentModel.DataAnnotations
-@using Microsoft.AspNetCore.Identity
 
 @inject UserManager<PgBlogSiteUser> UserManager
 @inject SignInManager<PgBlogSiteUser> SignInManager
@@ -10,42 +8,71 @@
 
 <PageTitle>Profile</PageTitle>
 
-<h3 aria-label="Manage Profile">Profile</h3>
-<StatusMessage />
+<h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-4" aria-label="Manage Profile">Profile</h3>
+<StatusMessage/>
 
-<div class="row">
-	<div class="col-xl-6">
-		<EditForm Model="Input" FormName="profile" OnValidSubmit="OnValidSubmitAsync" method="post">
-			<DataAnnotationsValidator />
-			<ValidationSummary class="text-danger" role="alert" />
-			<div class="form-floating mb-3">
-				<input type="text" value="@username" id="username" class="form-control" placeholder="Choose your username." disabled />
-				<label for="username" class="form-label">Username</label>
-			</div>
-			<div class="form-floating mb-3">
-				<InputText @bind-Value="Input.DisplayName" id="Input.DisplayName" class="form-control" placeholder="Enter your display name" />
-				<label for="Input.DisplayName" class="form-label">Display Name</label>
-				<ValidationMessage For="() => Input.DisplayName" class="text-danger" />
-			</div>
-			<div class="form-floating mb-3">
-				<InputText @bind-Value="Input.PhoneNumber" id="Input.PhoneNumber" class="form-control" placeholder="Enter your phone number" />
-				<label for="Input.PhoneNumber" class="form-label">Phone number</label>
-				<ValidationMessage For="() => Input.PhoneNumber" class="text-danger" />
-			</div>
-			<button type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
-		</EditForm>
+<EditForm Model="Input" FormName="profile" OnValidSubmit="OnValidSubmitAsync" method="post">
+	<DataAnnotationsValidator/>
+	<ValidationSummary
+		class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-800 dark:text-red-200 rounded-lg p-4 mb-4"
+		role="alert"/>
+
+	<div class="mb-4">
+		<label for="username" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+			Username
+		</label>
+		<input type="text" value="@username" id="username" class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 
+					  bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400
+					  cursor-not-allowed
+					  transition-all duration-200" placeholder="Choose your username." disabled/>
 	</div>
-</div>
+
+	<div class="mb-4">
+		<label for="Input.DisplayName" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+			Display Name
+		</label>
+		<InputText @bind-Value="Input.DisplayName" id="Input.DisplayName" class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 
+						  bg-white dark:bg-gray-700 text-gray-900 dark:text-white
+						  focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-transparent
+						  placeholder-gray-400 dark:placeholder-gray-500
+						  transition-all duration-200" placeholder="Enter your display name"/>
+		<ValidationMessage For="() => Input.DisplayName" class="text-red-600 dark:text-red-400 text-sm mt-1"/>
+	</div>
+
+	<div class="mb-6">
+		<label for="Input.PhoneNumber" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+			Phone number
+		</label>
+		<InputText @bind-Value="Input.PhoneNumber" id="Input.PhoneNumber" class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 
+						  bg-white dark:bg-gray-700 text-gray-900 dark:text-white
+						  focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-transparent
+						  placeholder-gray-400 dark:placeholder-gray-500
+						  transition-all duration-200" placeholder="Enter your phone number"/>
+		<ValidationMessage For="() => Input.PhoneNumber" class="text-red-600 dark:text-red-400 text-sm mt-1"/>
+	</div>
+
+	<button type="submit" class="w-full px-6 py-3 rounded-lg font-medium
+				   bg-gradient-to-r from-indigo-600 to-purple-600 
+				   hover:from-indigo-700 hover:to-purple-700
+				   text-white
+				   shadow-md hover:shadow-lg
+				   transform hover:scale-[1.02] active:scale-[0.98]
+				   transition-all duration-200">
+		Save
+	</button>
+</EditForm>
 
 @code {
+
 	private PgBlogSiteUser user = default!;
+
 	private string? username;
+
 	private string? phoneNumber;
 
-	[CascadingParameter]
-	private HttpContext HttpContext { get; set; } = default!;
+	[CascadingParameter] private HttpContext HttpContext { get; set; } = default!;
 
-	[Parameter, SupplyParameterFromForm(FormName="profile")]
+	[ Parameter][ SupplyParameterFromForm(FormName = "profile")]
 	public InputModel Input { get; set; } = new() { DisplayName = "" };
 
 	protected override async Task OnInitializedAsync()
@@ -53,7 +80,8 @@
 		user = await UserAccessor.GetRequiredUserAsync(HttpContext);
 		username = user.UserName; //await UserManager.GetUserNameAsync(user);
 		phoneNumber = user.PhoneNumber; // await UserManager.GetPhoneNumberAsync(user);
-																		// Input.DisplayName = user.DisplayName;
+
+		// Input.DisplayName = user.DisplayName;
 
 		if (string.IsNullOrEmpty(Input.PhoneNumber))
 		{
@@ -68,6 +96,7 @@
 		if (Input.PhoneNumber != phoneNumber)
 		{
 			var setPhoneResult = await UserManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
+
 			if (!setPhoneResult.Succeeded)
 			{
 				RedirectManager.RedirectToCurrentPageWithStatus("Error: Failed to set phone number.", HttpContext);
@@ -85,13 +114,15 @@
 
 	public sealed class InputModel
 	{
+
 		[Phone]
 		[Display(Name = "Phone number")]
 		public string? PhoneNumber { get; set; }
 
 
-		[Display(Name = "Display Name"), Required, MaxLength(50)]
+		[ Display(Name = "Display Name")][ Required][ MaxLength(50)]
 		public string? DisplayName { get; set; }
 
 	}
+
 }

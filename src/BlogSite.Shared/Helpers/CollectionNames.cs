@@ -3,8 +3,8 @@
 // File Name :     CollectionNames.cs
 // Company :       mpaulosky
 // Author :        Matthew Paulosky
-// Solution Name : BlazorBlogApplication
-// Project Name :  Shared
+// Solution Name : BlogSite
+// Project Name :  BlogSite.Shared
 // =======================================================
 
 using BlogSite.Shared.Abstractions;

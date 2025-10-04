@@ -3,8 +3,8 @@
 // File Name :     Enum.cs
 // Company :       mpaulosky
 // Author :        Matthew Paulosky
-// Solution Name : BlazorBlogApplication
-// Project Name :  Shared
+// Solution Name : BlogSite
+// Project Name :  BlogSite.Shared
 // =======================================================
 
 namespace BlogSite.Shared.Enums;

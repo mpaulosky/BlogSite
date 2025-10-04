@@ -3,8 +3,8 @@
 // File Name :     Helpers.cs
 // Company :       mpaulosky
 // Author :        Matthew Paulosky
-// Solution Name : BlazorBlogApplication
-// Project Name :  Shared
+// Solution Name : BlogSite
+// Project Name :  BlogSite.Shared
 // =======================================================
 
 namespace BlogSite.Shared.Helpers;
@@ -15,7 +15,7 @@ namespace BlogSite.Shared.Helpers;
 public static partial class Helpers
 {
 
-	private static readonly DateTime _staticDate = new(2025, 1, 1, 8, 0, 0);
+	private static readonly DateTime StaticDate = new(2025, 1, 1, 8, 0, 0);
 
 	/// <summary>
 	///   Gets a static date for testing purposes.
@@ -23,7 +23,7 @@ public static partial class Helpers
 	/// <returns>A static date of January 1, 2025, at 08:00 AM.</returns>
 	public static DateTime GetStaticDate()
 	{
-		return _staticDate;
+		return StaticDate;
 	}
 
 	/// <summary>
@@ -49,18 +49,18 @@ public static partial class Helpers
 	public static string GetRandomCategoryName()
 	{
 
-		List<string> categories = new()
-		{
-				MyCategories.FIRST,
-				MyCategories.SECOND,
-				MyCategories.THIRD,
-				MyCategories.FOURTH,
-				MyCategories.FIFTH,
-				MyCategories.SIXTH,
-				MyCategories.SEVENTH,
-				MyCategories.EIGHTH,
-				MyCategories.NINTH
-		};
+		List<string> categories =
+		[
+				MyCategories.First,
+				MyCategories.Second,
+				MyCategories.Third,
+				MyCategories.Fourth,
+				MyCategories.Fifth,
+				MyCategories.Sixth,
+				MyCategories.Seventh,
+				MyCategories.Eighth,
+				MyCategories.Ninth
+		];
 
 		return categories[new Random().Next(categories.Count)];
 

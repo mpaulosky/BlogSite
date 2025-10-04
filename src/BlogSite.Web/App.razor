@@ -4,26 +4,31 @@
 <html lang="en">
 
 <head>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<base href="/" />
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<base href="/"/>
 	<title>BlogSite</title>
-	<link rel="stylesheet" href="bootstrap/bootstrap.min.css" />
-	<link rel="stylesheet" href="app.css" />
-	<link rel="stylesheet" href="BlogSite.Web.styles.css" />
-	<HeadOutlet />
+	<link rel="stylesheet" href="css/dist.css"/>
+	<link rel="stylesheet" href="BlogSite.Web.styles.css"/>
+	<script src="js/theme-manager.js"></script>
+	<HeadOutlet/>
 </head>
 
-<body>
-	<Router AppAssembly="@typeof(Program).Assembly">
-		<Found Context="routeData">
-			<RouteView RouteData="@routeData" />
-		</Found>
-		<NotFound>
-			<p>Sorry, there's nothing at this address.</p>
-		</NotFound>
-	</Router>
-	<script src="_framework/blazor.web.js"></script>
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200">
+<Router AppAssembly="@typeof(Program).Assembly">
+	<Found Context="routeData">
+		<RouteView RouteData="@routeData"/>
+	</Found>
+	<NotFound>
+		<div class="flex items-center justify-center min-h-screen">
+			<div class="text-center">
+				<h1 class="text-6xl font-bold text-gray-300 dark:text-gray-700 mb-4">404</h1>
+				<p class="text-xl text-gray-600 dark:text-gray-400">Sorry, there's nothing at this address.</p>
+			</div>
+		</div>
+	</NotFound>
+</Router>
+<script src="_framework/blazor.web.js"></script>
 </body>
 
 </html>

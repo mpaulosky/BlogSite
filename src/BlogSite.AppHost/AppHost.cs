@@ -1,36 +1,49 @@
-var builder = DistributedApplication.CreateBuilder(args);
+// =======================================================
+// Copyright (c) 2025. All rights reserved.
+// File Name :     AppHost.cs
+// Company :       mpaulosky
+// Author :        Matthew Paulosky
+// Solution Name : BlogSite
+// Project Name :  BlogSite.AppHost
+// =======================================================
 
-var testOnly = false;
+using Projects;
 
-foreach (var arg in args)
+IDistributedApplicationBuilder builder = DistributedApplication.CreateBuilder(args);
+
+bool testOnly = false;
+
+foreach (string arg in args)
 {
 	if (arg.StartsWith("--testonly"))
 	{
-		var parts = arg.Split('=');
-		if (parts.Length == 2 && bool.TryParse(parts[1], out var result))
+		string[] parts = arg.Split('=');
+
+		if (parts.Length == 2 && bool.TryParse(parts[1], out bool result))
 		{
 			testOnly = result;
 		}
 	}
 }
 
-var (db, migrationSvc) = 
-	builder.AddPostgresServices(testOnly);
+(IResourceBuilder<PostgresDatabaseResource> db, IResourceBuilder<ProjectResource> migrationSvc) =
+		builder.AddPostgresServices(testOnly);
 
-builder.AddProject<Projects.BlogSite_Web>(Website)
-	.WithReference(db)
-	.WaitForCompletion(migrationSvc)
-	.WithRunE2ETestsCommand()
-	.WithExternalHttpEndpoints();
+builder.AddProject<BlogSite_Web>(Website)
+		.WithReference(db)
+		.WaitForCompletion(migrationSvc)
+		.WithRunE2ETestsCommand()
+		.WithExternalHttpEndpoints();
 
 if (testOnly)
 {
 	// start the site with runasync and watch for a file to be created called 'stop-aspire' 
 	// to stop the site
-	var theSite = builder.Build();
-	var fileSystemWatcher = new FileSystemWatcher(".", "stop-aspire")
+	DistributedApplication theSite = builder.Build();
+
+	FileSystemWatcher fileSystemWatcher = new (".", "stop-aspire")
 	{
-		NotifyFilter = NotifyFilters.FileName | NotifyFilters.CreationTime
+			NotifyFilter = NotifyFilters.FileName | NotifyFilters.CreationTime
 	};
 
 	fileSystemWatcher.Created += async (_, e) =>

@@ -3,16 +3,8 @@
 // File Name :     MyCategories.cs
 // Company :       mpaulosky
 // Author :        Matthew Paulosky
-// Solution Name : BlazorBlogApplication
-// Project Name :  Shared
-// =======================================================
-// =======================================================
-// Copyright (c) 2025. All rights reserved.
-// File Name :     MyCategories.cs
-// Company :       mpaulosky
-// Author :        Matthew
-// Solution Name : BlazorBlogApplication
-// Project Name :  Shared
+// Solution Name : BlogSite
+// Project Name :  BlogSite.Shared
 // =======================================================
 
 namespace BlogSite.Shared.Helpers;
@@ -23,22 +15,22 @@ namespace BlogSite.Shared.Helpers;
 public static class MyCategories
 {
 
-	public const string FIRST = "ASP.NET Core";
+	public const string First = "ASP.NET Core";
 
-	public const string SECOND = "Blazor Server";
+	public const string Second = "Blazor Server";
 
-	public const string THIRD = "Blazor WebAssembly";
+	public const string Third = "Blazor WebAssembly";
 
-	public const string FOURTH = "C# Programming";
+	public const string Fourth = "C# Programming";
 
-	public const string FIFTH = "Entity Framework Core (EF Core)";
+	public const string Fifth = "Entity Framework Core (EF Core)";
 
-	public const string SIXTH = ".NET MAUI";
+	public const string Sixth = ".NET MAUI";
 
-	public const string SEVENTH = "General Programming";
+	public const string Seventh = "General Programming";
 
-	public const string EIGHTH = "Web Development";
+	public const string Eighth = "Web Development";
 
-	public const string NINTH = "Other .NET Topics";
+	public const string Ninth = "Other .NET Topics";
 
 }

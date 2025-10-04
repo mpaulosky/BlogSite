@@ -15,8 +15,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\BlogSite.Data.Postgres\BlogSite.Data.Postgres.csproj" />
-	  <ProjectReference Include="..\BlogSite.Shared\BlogSite.Shared.csproj" />
+		<ProjectReference Include="..\BlogSite.Data.Postgres\BlogSite.Data.Postgres.csproj"/>
+		<ProjectReference Include="..\BlogSite.Shared\BlogSite.Shared.csproj"/>
 	</ItemGroup>
 
 </Project>

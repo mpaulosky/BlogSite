@@ -1,4 +1,13 @@
-﻿global using Microsoft.AspNetCore.Components;
+﻿// =======================================================
+// Copyright (c) 2025. All rights reserved.
+// File Name :     RegisterPostgresSecurityServices.cs
+// Company :       mpaulosky
+// Author :        Matthew Paulosky
+// Solution Name : BlogSite
+// Project Name :  BlogSite.Security.Postgres
+// =======================================================
+
+global using Microsoft.AspNetCore.Components;
 global using Microsoft.AspNetCore.Http;
 global using Microsoft.AspNetCore.Identity;
 global using Microsoft.Extensions.Logging;
@@ -19,6 +28,7 @@ namespace BlogSite.Security.Postgres;
 
 public class RegisterPostgresSecurityServices : IRegisterServices, IRunAtStartup
 {
+
 	private const string InitializeUsersActivitySourceName = "Initial Users and Roles";
 
 	public IHostApplicationBuilder RegisterServices(IHostApplicationBuilder builder, bool disableRetry = false)
@@ -32,13 +42,14 @@ public class RegisterPostgresSecurityServices : IRegisterServices, IRunAtStartup
 		builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 		builder.Services.AddAuthentication(options =>
-		{
-			options.DefaultScheme = IdentityConstants.ApplicationScheme;
-			options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
-		})
-		.AddIdentityCookies();
+				{
+					options.DefaultScheme = IdentityConstants.ApplicationScheme;
+					options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
+				})
+				.AddIdentityCookies();
 
 		ConfigurePostgresDbContext(builder, disableRetry);
+
 		builder.Services.AddIdentityCore<PgBlogSiteUser>(options => options.SignIn.RequireConfirmedAccount = true)
 				.AddRoles<IdentityRole>()
 				.AddEntityFrameworkStores<PgSecurityContext>()
@@ -46,7 +57,7 @@ public class RegisterPostgresSecurityServices : IRegisterServices, IRunAtStartup
 				.AddDefaultTokenProviders();
 
 		builder.Services.AddOpenTelemetry()
-			.WithTracing(tracing => tracing.AddSource(InitializeUsersActivitySourceName));
+				.WithTracing(tracing => tracing.AddSource(InitializeUsersActivitySourceName));
 
 
 		builder.Services.AddSingleton<IEmailSender<PgBlogSiteUser>, IdentityNoOpEmailSender>();
@@ -55,46 +66,35 @@ public class RegisterPostgresSecurityServices : IRegisterServices, IRunAtStartup
 
 	}
 
-	public static void ConfigurePostgresDbContext(IHostApplicationBuilder builder, bool disableRetry)
-	{
-		builder.AddNpgsqlDbContext<PgSecurityContext>(Services.USER_DATABASE, configure =>
-		{
-			configure.DisableRetry = disableRetry;
-		}, configure =>
-		{
-			configure.UseNpgsql(options =>
-			{
-				options.MigrationsHistoryTable("__EFMigrationsHistory_Security");
-			});
-		});
-	}
-
 	public async Task RunAtStartup(IServiceProvider services)
 	{
 
-		ActivitySource activitySource = new ActivitySource(InitializeUsersActivitySourceName);
-		var activity = activitySource.CreateActivity("Inspecting roles", ActivityKind.Internal);
+		ActivitySource activitySource = new (InitializeUsersActivitySourceName);
+		Activity? activity = activitySource.CreateActivity("Inspecting roles", ActivityKind.Internal);
 
-		using var scope = services.CreateScope();
-		var provider = scope.ServiceProvider;
+		using IServiceScope scope = services.CreateScope();
+		IServiceProvider provider = scope.ServiceProvider;
 
 		activity?.Start();
-		var roleMgr = provider.GetRequiredService<RoleManager<IdentityRole>>();
-		var adminExists = await roleMgr.RoleExistsAsync(Roles.Admin);
+		RoleManager<IdentityRole> roleMgr = provider.GetRequiredService<RoleManager<IdentityRole>>();
+		bool adminExists = await roleMgr.RoleExistsAsync(Roles.Admin);
+
 		if (!adminExists)
 		{
 			await roleMgr.CreateAsync(new IdentityRole(Roles.Admin));
 			activity?.AddEvent(new ActivityEvent("Created Admin role"));
 		}
 
-		var editorExists = await roleMgr.RoleExistsAsync(Roles.Author);
+		bool editorExists = await roleMgr.RoleExistsAsync(Roles.Author);
+
 		if (!editorExists)
 		{
 			await roleMgr.CreateAsync(new IdentityRole(Roles.Author));
 			activity?.AddEvent(new ActivityEvent("Created Editor role"));
 		}
 
-		var userExists = await roleMgr.RoleExistsAsync(Roles.User);
+		bool userExists = await roleMgr.RoleExistsAsync(Roles.User);
+
 		if (!userExists)
 		{
 			await roleMgr.CreateAsync(new IdentityRole(Roles.User));
@@ -106,18 +106,17 @@ public class RegisterPostgresSecurityServices : IRegisterServices, IRunAtStartup
 		activity = activitySource.CreateActivity("Inspecting users", ActivityKind.Internal);
 		activity?.Start();
 
-		var userManager = provider.GetRequiredService<UserManager<PgBlogSiteUser>>();
-		var anyUsers = await userManager.Users.AnyAsync();
+		UserManager<PgBlogSiteUser> userManager = provider.GetRequiredService<UserManager<PgBlogSiteUser>>();
+		bool anyUsers = await userManager.Users.AnyAsync();
+
 		if (!anyUsers)
 		{
-			var admin = new PgBlogSiteUser
+			PgBlogSiteUser admin = new()
 			{
-				DisplayName = "Admin",
-				UserName = "admin@localhost",
-				Email = "admin@localhost",
-				EmailConfirmed = true
+					DisplayName = "Admin", UserName = "admin@localhost", Email = "admin@localhost", EmailConfirmed = true
 			};
-			var newUserResult = await userManager.CreateAsync(admin, "Admin123!");
+
+			IdentityResult newUserResult = await userManager.CreateAsync(admin, "Admin123!");
 			activity?.AddEvent(new ActivityEvent("Created admin user with password 'Admin123!'"));
 			await userManager.AddToRoleAsync(admin, Roles.Admin);
 			activity?.AddEvent(new ActivityEvent("Assigned admin user to Admin role"));
@@ -125,8 +124,23 @@ public class RegisterPostgresSecurityServices : IRegisterServices, IRunAtStartup
 
 	}
 
+	public static void ConfigurePostgresDbContext(IHostApplicationBuilder builder, bool disableRetry)
+	{
+		builder.AddNpgsqlDbContext<PgSecurityContext>(Services.UserDatabase, configure =>
+		{
+			configure.DisableRetry = disableRetry;
+		}, configure =>
+		{
+			configure.UseNpgsql(options =>
+			{
+				options.MigrationsHistoryTable("__EFMigrationsHistory_Security");
+			});
+		});
+	}
+
 	public void MapEndpoints(IEndpointRouteBuilder endpointDooHickey)
 	{
 		endpointDooHickey.MapAdditionalIdentityEndpoints();
 	}
+
 }

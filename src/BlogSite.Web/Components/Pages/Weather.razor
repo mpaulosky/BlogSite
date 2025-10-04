@@ -3,62 +3,123 @@
 
 <PageTitle>Weather</PageTitle>
 
-<h1>Weather</h1>
+<div class="max-w-6xl mx-auto">
+	<h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+		Weather
+	</h1>
 
-<p>This component demonstrates showing data.</p>
+	<p class="text-gray-600 dark:text-gray-400 mb-8">
+		This component demonstrates showing data.
+	</p>
 
-@if (forecasts == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th aria-label="Temperature in Celsius">Temp. (C)</th>
-                <th aria-label="Temperature in Farenheit">Temp. (F)</th>
-                <th>Summary</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var forecast in forecasts)
-            {
-                <tr>
-                    <td>@forecast.Date.ToShortDateString()</td>
-                    <td>@forecast.TemperatureC</td>
-                    <td>@forecast.TemperatureF</td>
-                    <td>@forecast.Summary</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
+	@if (forecasts == null)
+	{
+		<div class="flex items-center justify-center p-12">
+			<div class="animate-pulse flex items-center gap-3">
+				<div class="w-8 h-8 bg-blue-500 rounded-full animate-bounce"></div>
+				<p class="text-lg text-gray-600 dark:text-gray-400">Loading...</p>
+			</div>
+		</div>
+	}
+	else
+	{
+		<div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden
+                        border border-gray-200 dark:border-gray-700">
+			<div class="overflow-x-auto">
+				<table class="w-full">
+					<thead class="bg-gray-50 dark:bg-gray-700">
+					<tr>
+						<th
+							class="px-6 py-4 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">
+							Date
+						</th>
+						<th aria-label="Temperature in Celsius"
+								class="px-6 py-4 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">
+							Temp. (C)
+						</th>
+						<th aria-label="Temperature in Fahrenheit"
+								class="px-6 py-4 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">
+							Temp. (F)
+						</th>
+						<th
+							class="px-6 py-4 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">
+							Summary
+						</th>
+					</tr>
+					</thead>
+					<tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+					@foreach (var forecast in forecasts)
+					{
+						<tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors duration-150">
+							<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
+								@forecast.Date.ToShortDateString()
+							</td>
+							<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
+                                    <span
+																			class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                                                         @(forecast.TemperatureC < 0 ? "bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200" :
+																																																			forecast.TemperatureC > 25 ? "bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200" :
+																																																			"bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200")">
+                                        @forecast.TemperatureC°
+                                    </span>
+							</td>
+							<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
+                                    <span
+																			class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                                                         @(forecast.TemperatureF < 32 ? "bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200" :
+																																																			forecast.TemperatureF > 77 ? "bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200" :
+																																																			"bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200")">
+                                        @forecast.TemperatureF°
+                                    </span>
+							</td>
+							<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
+								@forecast.Summary
+							</td>
+						</tr>
+					}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	}
+</div>
 
 @code {
-    private WeatherForecast[]? forecasts;
 
-    protected override async Task OnInitializedAsync()
-    {
-        // Simulate asynchronous loading to demonstrate streaming rendering
-        await Task.Delay(500);
+	private WeatherForecast[]? forecasts;
 
-        var startDate = DateOnly.FromDateTime(DateTime.Now);
-        var summaries = new[] { "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching" };
-        forecasts = Enumerable.Range(1, 5).Select(index => new WeatherForecast
-        {
-            Date = startDate.AddDays(index),
-            TemperatureC = Random.Shared.Next(-20, 55),
-            Summary = summaries[Random.Shared.Next(summaries.Length)]
-        }).ToArray();
-    }
+	protected override async Task OnInitializedAsync()
+	{
+		// Simulate asynchronous loading to demonstrate streaming rendering
+		await Task.Delay(500);
 
-    private class WeatherForecast
-    {
-        public DateOnly Date { get; set; }
-        public int TemperatureC { get; set; }
-        public string? Summary { get; set; }
-        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-    }
+		var startDate = DateOnly.FromDateTime(DateTime.Now);
+
+		var summaries = new[]
+		{
+			"Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering",
+			"Scorching"
+		};
+
+		forecasts = Enumerable.Range(1, 5).Select(index => new WeatherForecast
+		{
+			Date = startDate.AddDays(index),
+			TemperatureC = Random.Shared.Next(-20, 55),
+			Summary = summaries[Random.Shared.Next(summaries.Length)]
+		}).ToArray();
+	}
+
+	private class WeatherForecast
+	{
+
+		public DateOnly Date { get; set; }
+
+		public int TemperatureC { get; set; }
+
+		public string? Summary { get; set; }
+
+		public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+
+	}
+
 }

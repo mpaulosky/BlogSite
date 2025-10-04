@@ -1,10 +1,10 @@
 ﻿// =======================================================
 // Copyright (c) 2025. All rights reserved.
-// File Name :     FakeCategory.cs
+// File Name :     FakePgCategory.cs
 // Company :       mpaulosky
 // Author :        Matthew Paulosky
-// Solution Name : BlazorBlogApplication
-// Project Name :  Shared
+// Solution Name : BlogSite
+// Project Name :  BlogSite.Shared
 // =======================================================
 
 namespace BlogSite.Shared.Fakes;
@@ -15,7 +15,7 @@ namespace BlogSite.Shared.Fakes;
 public static class FakePgCategory
 {
 
-	private const int SEED = 621;
+	private const int Seed = 621;
 
 	/// <summary>
 	///   Generates a new fake <see cref="Category" /> object.
@@ -52,13 +52,13 @@ public static class FakePgCategory
 
 
 		Faker<Category>? fake = new Faker<Category>()
-			.RuleFor(x => x.Id, _ => Random.Shared.Next(1, 1000))
-			.RuleFor(x => x.CategoryName, _ => GetRandomCategoryName())
-			.RuleFor(x => x.IsArchived, f => f.Random.Bool())
-			.RuleFor(x => x.CreatedOn, _ => DateTimeOffset.UtcNow)
-			.RuleFor(x => x.ModifiedOn, _ => DateTimeOffset.UtcNow);
+				.RuleFor(x => x.Id, _ => Random.Shared.Next(1, 1000))
+				.RuleFor(x => x.CategoryName, _ => GetRandomCategoryName())
+				.RuleFor(x => x.IsArchived, f => f.Random.Bool())
+				.RuleFor(x => x.CreatedOn, _ => DateTimeOffset.UtcNow)
+				.RuleFor(x => x.ModifiedOn, _ => DateTimeOffset.UtcNow);
 
-		return useSeed ? fake.UseSeed(SEED) : fake;
+		return useSeed ? fake.UseSeed(Seed) : fake;
 
 	}
 

@@ -3,8 +3,8 @@
 // File Name :     FakeArticle.cs
 // Company :       mpaulosky
 // Author :        Matthew Paulosky
-// Solution Name : BlazorBlogApplication
-// Project Name :  Shared
+// Solution Name : BlogSite
+// Project Name :  BlogSite.Shared
 // =======================================================
 
 namespace BlogSite.Shared.Fakes;
@@ -60,7 +60,7 @@ public static class FakeArticle
 				.RuleFor(a => a.IsArchived, (f, _) => f.Random.Bool())
 				.RuleFor(a => a.Category, FakeCategory.GetNewCategory(useSeed))
 				.RuleFor(a => a.CategoryId, (_, a) => a.CategoryId = a.Category!.Id)
-				.RuleFor(a => a.Author, FakeBlogSiteUser.GetNewBlogSiteUser(useSeed))
+				.RuleFor(a => a.Author, FakeAuthor.GetNewAuthor(useSeed))
 				.RuleFor(a => a.AuthorId, (_, a) => a.AuthorId = a.Author!.Id)
 				.RuleFor(a => a.CreatedOn, DateTimeOffset.UtcNow)
 				.RuleFor(a => a.ModifiedOn, DateTimeOffset.UtcNow)

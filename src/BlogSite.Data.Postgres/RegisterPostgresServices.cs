@@ -1,3 +1,12 @@
+// =======================================================
+// Copyright (c) 2025. All rights reserved.
+// File Name :     RegisterPostgresServices.cs
+// Company :       mpaulosky
+// Author :        Matthew Paulosky
+// Solution Name : BlogSite
+// Project Name :  BlogSite.Data.Postgres
+// =======================================================
+
 using BlogSite.Shared;
 using BlogSite.Shared.Interfaces;
 
@@ -8,6 +17,7 @@ namespace BlogSite.Data.Postgres;
 
 public class RegisterPostgresServices : IRegisterServices
 {
+
 	public IHostApplicationBuilder RegisterServices(IHostApplicationBuilder host, bool disableRetry = false)
 	{
 		// Register concrete implementations backed by PostgresSQL
@@ -15,7 +25,7 @@ public class RegisterPostgresServices : IRegisterServices
 		host.Services.AddTransient<ICategoryRepository, PgCategoryRepository>();
 
 		// Use the shared Services constants for database naming
-		host.AddNpgsqlDbContext<PgContext>(Services.DATABASE, configure =>
+		host.AddNpgsqlDbContext<PgContext>(Services.Database, configure =>
 		{
 			configure.DisableRetry = disableRetry;
 		});
@@ -23,4 +33,5 @@ public class RegisterPostgresServices : IRegisterServices
 		return host;
 
 	}
+
 }

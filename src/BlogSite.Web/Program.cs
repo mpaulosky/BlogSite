@@ -1,20 +1,27 @@
+// =======================================================
+// Copyright (c) 2025. All rights reserved.
+// File Name :     Program.cs
+// Company :       mpaulosky
+// Author :        Matthew Paulosky
+// Solution Name : BlogSite
+// Project Name :  BlogSite.Web
+// =======================================================
+
 using BlogSite.Data.Postgres;
 using BlogSite.Security.Postgres;
 using BlogSite.ServiceDefaults;
-using BlogSite.Shared;
-using BlogSite.Shared.Entities;
+using BlogSite.Web;
 
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
 
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // Load postgres
-var pg = new RegisterPostgresServices();
+RegisterPostgresServices pg = new ();
 
 pg.RegisterServices(builder);
 
-var pgSecurity = new RegisterPostgresSecurityServices();
+RegisterPostgresSecurityServices pgSecurity = new ();
 
 pgSecurity.RegisterServices(builder);
 
@@ -47,13 +54,14 @@ builder.Services.AddRazorComponents()
 builder.Services.AddOutputCache();
 
 builder.Services.AddMemoryCache();
-builder.Services.AddApplicationInsightsTelemetry();
+//builder.Services.AddApplicationInsightsTelemetry();
 
-var app = builder.Build();
+WebApplication app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
 {
-	app.UseExceptionHandler("/Error", createScopeForErrors: true);
+	app.UseExceptionHandler("/Error", true);
+
 	// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
 	app.UseHsts();
 }
@@ -67,11 +75,12 @@ app.UseStatusCodePagesWithReExecute("/Error", "?statusCode={0}");
 
 //var pluginManager = await app.ActivatePluginManager(appState);
 
-app.MapRazorComponents<BlogSite.Web.App>()
+app.MapRazorComponents<App>()
 		.AddInteractiveServerRenderMode()
 		.AddAdditionalAssemblies(
-		typeof(PgBlogSiteUser).Assembly
-		//typeof(Sample.FirstThemePlugin.Theme).Assembly
+				typeof(PgBlogSiteUser).Assembly
+
+				//typeof(Sample.FirstThemePlugin.Theme).Assembly
 		);
 
 app.UseAntiforgery();

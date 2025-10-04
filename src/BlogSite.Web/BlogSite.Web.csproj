@@ -7,31 +7,29 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<InternalsVisibleTo Include="BlogSite.Web.Tests.E2E" />
-		<InternalsVisibleTo Include="BlogSite.Web.Tests.Bunit" />
-		<InternalsVisibleTo Include="BlogSite.Web.Tests.Unit" />
+		<InternalsVisibleTo Include="BlogSite.Web.Tests.E2E"/>
+		<InternalsVisibleTo Include="BlogSite.Web.Tests.Bunit"/>
+		<InternalsVisibleTo Include="BlogSite.Web.Tests.Unit"/>
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Azure.Identity" />
-		<PackageReference Include="markdig" />
-		<PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid" />
-		<PackageReference Include="Microsoft.Extensions.Localization" />
+		<PackageReference Include="markdig"/>
+		<PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid"/>
+		<PackageReference Include="Microsoft.Extensions.Localization"/>
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" VersionOverride="9.0.9">
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" />
-		<PackageReference Include="Microsoft.Extensions.Caching.Memory" />
-		<PackageReference Include="PSC.Blazor.Components.MarkdownEditor" />
+		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore"/>
+		<PackageReference Include="Microsoft.Extensions.Caching.Memory"/>
+		<PackageReference Include="PSC.Blazor.Components.MarkdownEditor"/>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\BlogSite.Data.Postgres\BlogSite.Data.Postgres.csproj" />
-	  <ProjectReference Include="..\BlogSite.Security.Postgres\BlogSite.Security.Postgres.csproj" />
-	  <ProjectReference Include="..\BlogSite.ServiceDefaults\BlogSite.ServiceDefaults.csproj" />
-	  <ProjectReference Include="..\BlogSite.Shared\BlogSite.Shared.csproj" />
+		<ProjectReference Include="..\BlogSite.Data.Postgres\BlogSite.Data.Postgres.csproj"/>
+		<ProjectReference Include="..\BlogSite.Security.Postgres\BlogSite.Security.Postgres.csproj"/>
+		<ProjectReference Include="..\BlogSite.ServiceDefaults\BlogSite.ServiceDefaults.csproj"/>
+		<ProjectReference Include="..\BlogSite.Shared\BlogSite.Shared.csproj"/>
 	</ItemGroup>
 
 </Project>

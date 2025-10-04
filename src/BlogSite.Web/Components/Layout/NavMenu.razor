@@ -1,92 +1,168 @@
 ﻿@implements IDisposable
-
 @inject NavigationManager NavigationManager
 
-<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">BlazorApp</a>
-    </div>
+<!-- Header with brand -->
+<div class="p-4 border-b border-white/10">
+	<a href="" class="text-white text-xl font-bold hover:text-blue-300 transition-colors duration-200 no-underline">
+		BlogSite
+	</a>
 </div>
 
-<input type="checkbox" title="Navigation menu" class="navbar-toggler" />
+<!-- Mobile toggle button -->
+<input type="checkbox" id="nav-toggle" title="Navigation menu" class="peer sr-only"/>
+<label for="nav-toggle" class="md:hidden fixed top-2 right-4 z-50
+              w-12 h-10 cursor-pointer
+              flex items-center justify-center
+              border border-white/20 rounded-md
+              bg-white/10 hover:bg-white/20
+              transition-all duration-200">
+	<svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+		<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+	</svg>
+</label>
 
-<div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
-    <nav class="nav flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
-            </NavLink>
-        </div>
+<!-- Navigation menu -->
+<nav class="hidden peer-checked:block md:block 
+            overflow-y-auto md:h-[calc(100vh-73px)]
+            p-4">
+	<div class="flex flex-col gap-1">
+		<!-- Home -->
+		<NavLink href="" Match="NavLinkMatch.All" class="flex items-center gap-3 px-4 py-3 rounded-lg
+                        text-gray-200 hover:text-white
+                        hover:bg-white/10
+                        transition-all duration-200
+                        no-underline">
+			<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 16 16">
+				<path
+					d="M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5Z"/>
+			</svg>
+			<span>Home</span>
+		</NavLink>
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter
-            </NavLink>
-        </div>
+		<!-- Counter -->
+		<NavLink href="counter" class="flex items-center gap-3 px-4 py-3 rounded-lg
+                        text-gray-200 hover:text-white
+                        hover:bg-white/10
+                        transition-all duration-200
+                        no-underline">
+			<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 16 16">
+				<path
+					d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0z"/>
+			</svg>
+			<span>Counter</span>
+		</NavLink>
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="weather">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
-            </NavLink>
-        </div>
+		<!-- Weather -->
+		<NavLink href="weather" class="flex items-center gap-3 px-4 py-3 rounded-lg
+                        text-gray-200 hover:text-white
+                        hover:bg-white/10
+                        transition-all duration-200
+                        no-underline">
+			<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 16 16">
+				<path fill-rule="evenodd"
+							d="M4.5 11.5A.5.5 0 0 1 5 11h10a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5zm-2-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm-2-4A.5.5 0 0 1 1 3h10a.5.5 0 0 1 0 1H1a.5.5 0 0 1-.5-.5z"/>
+			</svg>
+			<span>Weather</span>
+		</NavLink>
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="auth">
-                <span class="bi bi-lock-nav-menu" aria-hidden="true"></span> Auth Required
-            </NavLink>
-        </div>
+		<!-- Auth Required -->
+		<NavLink href="auth" class="flex items-center gap-3 px-4 py-3 rounded-lg
+                        text-gray-200 hover:text-white
+                        hover:bg-white/10
+                        transition-all duration-200
+                        no-underline">
+			<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 16 16">
+				<path
+					d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2zM5 8h6a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/>
+			</svg>
+			<span>Auth Required</span>
+		</NavLink>
 
-        <AuthorizeView>
-            <Authorized>
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="Account/Manage">
-                        <span class="bi bi-person-fill-nav-menu" aria-hidden="true"></span> @context.User.Identity?.Name
-                    </NavLink>
-                </div>
-                <div class="nav-item px-3">
-                    <form action="Account/Logout" method="post">
-                        <AntiforgeryToken />
-                        <input type="hidden" name="ReturnUrl" value="@currentUrl" />
-                        <button type="submit" class="nav-link">
-                            <span class="bi bi-arrow-bar-left-nav-menu" aria-hidden="true"></span> Logout
-                        </button>
-                    </form>
-                </div>
-            </Authorized>
-            <NotAuthorized>
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="Account/Register">
-                        <span class="bi bi-person-nav-menu" aria-hidden="true"></span> Register
-                    </NavLink>
-                </div>
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="Account/Login">
-                        <span class="bi bi-person-badge-nav-menu" aria-hidden="true"></span> Login
-                    </NavLink>
-                </div>
-            </NotAuthorized>
-        </AuthorizeView>
-    </nav>
-</div>
+		<!-- Auth section -->
+		<div class="pt-4 mt-4 border-t border-white/10">
+			<AuthorizeView>
+				<Authorized>
+					<!-- Manage Account -->
+					<NavLink href="Account/Manage" class="flex items-center gap-3 px-4 py-3 rounded-lg
+                                    text-gray-200 hover:text-white
+                                    hover:bg-white/10
+                                    transition-all duration-200
+                                    no-underline">
+						<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 16 16">
+							<path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+						</svg>
+						<span class="truncate">@context.User.Identity?.Name</span>
+					</NavLink>
+
+					<!-- Logout -->
+					<form action="Account/Logout" method="post" class="mt-1">
+						<AntiforgeryToken/>
+						<input type="hidden" name="ReturnUrl" value="@currentUrl"/>
+						<button type="submit" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg
+                                       text-gray-200 hover:text-white
+                                       hover:bg-white/10
+                                       transition-all duration-200
+                                       text-left border-0 bg-transparent cursor-pointer">
+							<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 16 16">
+								<path
+									d="M12.5 15a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5ZM10 8a.5.5 0 0 1-.5.5H3.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L3.707 7.5H9.5a.5.5 0 0 1 .5.5Z"/>
+							</svg>
+							<span>Logout</span>
+						</button>
+					</form>
+				</Authorized>
+				<NotAuthorized>
+					<!-- Register -->
+					<NavLink href="Account/Register" class="flex items-center gap-3 px-4 py-3 rounded-lg
+                                    text-gray-200 hover:text-white
+                                    hover:bg-white/10
+                                    transition-all duration-200
+                                    no-underline">
+						<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 16 16">
+							<path
+								d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z"/>
+						</svg>
+						<span>Register</span>
+					</NavLink>
+
+					<!-- Login -->
+					<NavLink href="Account/Login" class="flex items-center gap-3 px-4 py-3 rounded-lg
+                                    text-gray-200 hover:text-white
+                                    hover:bg-white/10
+                                    transition-all duration-200
+                                    no-underline mt-1">
+						<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 16 16">
+							<path d="M6.5 2a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1h-3zM11 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+							<path
+								d="M4.5 0A2.5 2.5 0 0 0 2 2.5V14a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2.5A2.5 2.5 0 0 0 11.5 0h-7zM3 2.5A1.5 1.5 0 0 1 4.5 1h7A1.5 1.5 0 0 1 13 2.5v10.795a4.2 4.2 0 0 0-.776-.492C11.392 12.387 10.063 12 8 12s-3.392.387-4.224.803a4.2 4.2 0 0 0-.776.492V2.5z"/>
+						</svg>
+						<span>Login</span>
+					</NavLink>
+				</NotAuthorized>
+			</AuthorizeView>
+		</div>
+	</div>
+</nav>
 
 @code {
-    private string? currentUrl;
 
-    protected override void OnInitialized()
-    {
-        currentUrl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
-        NavigationManager.LocationChanged += OnLocationChanged;
-    }
+	private string? currentUrl;
 
-    private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
-    {
-        currentUrl = NavigationManager.ToBaseRelativePath(e.Location);
-        StateHasChanged();
-    }
+	protected override void OnInitialized()
+	{
+		currentUrl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
+		NavigationManager.LocationChanged += OnLocationChanged;
+	}
 
-    public void Dispose()
-    {
-        NavigationManager.LocationChanged -= OnLocationChanged;
-    }
+	private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
+	{
+		currentUrl = NavigationManager.ToBaseRelativePath(e.Location);
+		StateHasChanged();
+	}
+
+	public void Dispose()
+	{
+		NavigationManager.LocationChanged -= OnLocationChanged;
+	}
+
 }
-

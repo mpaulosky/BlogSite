@@ -8,7 +8,6 @@
 // =======================================================
 
 global using System.Diagnostics;
-global using System.Diagnostics.CodeAnalysis;
 
 global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.Extensions.Diagnostics.HealthChecks;

@@ -1,32 +1,44 @@
 ﻿@inherits LayoutComponentBase
 
 <LayoutView Layout="@MainLayoutType">
-  <h1>Manage your account</h1>
+	<div class="max-w-7xl mx-auto py-8">
+		<div class="mb-8">
+			<h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+				Manage your account
+			</h1>
+			<p class="text-gray-600 dark:text-gray-400">
+				Change your account settings and manage your profile
+			</p>
+		</div>
 
-  <div>
-    <h2>Change your account settings</h2>
-    <hr />
-    <div class="row">
-      <div class="col-lg-3">
-        <ManageNavMenu />
-      </div>
-      <div class="col-lg-9">
-        @Body
-      </div>
-    </div>
-  </div>
+		<div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+			<div class="lg:col-span-1">
+				<div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 
+                    border border-gray-200 dark:border-gray-700
+                    sticky top-24">
+					<ManageNavMenu/>
+				</div>
+			</div>
+			<div class="lg:col-span-3">
+				<div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 lg:p-8
+                    border border-gray-200 dark:border-gray-700">
+					@Body
+				</div>
+			</div>
+		</div>
+	</div>
 </LayoutView>
 
 @code {
 
-  private Type? MainLayoutType { get; set; }
+	private Type? MainLayoutType { get; set; }
 
-  protected override void OnInitialized()
-  {
+	protected override void OnInitialized()
+	{
 
-    MainLayoutType = Type.GetType("BlogSite.Web.Components.Layout.MainLayout, BlogSite.Web");
+		MainLayoutType = Type.GetType("BlogSite.Web.Components.Layout.MainLayout, BlogSite.Web");
 
-    base.OnInitialized();
-  }
+		base.OnInitialized();
+	}
 
 }

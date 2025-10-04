@@ -1,3 +1,12 @@
+// =======================================================
+// Copyright (c) 2025. All rights reserved.
+// File Name :     PgContext.cs
+// Company :       mpaulosky
+// Author :        Matthew Paulosky
+// Solution Name : BlogSite
+// Project Name :  BlogSite.Data.Postgres
+// =======================================================
+
 using BlogSite.Shared.Entities;
 
 using Microsoft.EntityFrameworkCore;
@@ -24,10 +33,7 @@ public class PgContext : DbContext
 
 		modelBuilder
 				.Entity<PgArticle>()
-				.HasOne(a => a.Author)
-				.WithMany()
-				.HasForeignKey(a => a.AuthorId)
-				.OnDelete(DeleteBehavior.Restrict);
+				.Ignore(a => a.Author);
 
 		modelBuilder.Entity<PgArticle>()
 				.HasOne(a => a.Category)
@@ -46,23 +52,21 @@ public class PgContext : DbContext
 				.HasConversion(new DateTimeOffsetConverter());
 
 		modelBuilder.Entity<Category>()
-			.HasIndex(p => p.Id)
-			.IsUnique();
+				.HasIndex(p => p.Id)
+				.IsUnique();
 
 		modelBuilder
-			.Entity<Category>()
-			.Property(e => e.ModifiedOn)
-			.HasConversion(new DateTimeOffsetConverter());
+				.Entity<Category>()
+				.Property(e => e.ModifiedOn)
+				.HasConversion(new DateTimeOffsetConverter());
 
 	}
 
 }
 
-public class DateTimeOffsetConverter : ValueConverter<DateTimeOffset, DateTimeOffset>
+public class DateTimeOffsetConverter : ValueConverter<DateTimeOffset, DateTime>
 {
 	public DateTimeOffsetConverter() : base(
-			v => v.UtcDateTime,
-			v => v)
-	{
-	}
+		v => v.UtcDateTime,
+		v => new DateTimeOffset(DateTime.SpecifyKind(v, DateTimeKind.Utc))) { }
 }

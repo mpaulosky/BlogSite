@@ -1,18 +1,27 @@
-﻿namespace BlogSite.Shared.Interfaces;
+﻿// =======================================================
+// Copyright (c) 2025. All rights reserved.
+// File Name :     IBlogSiteConfiguration.cs
+// Company :       mpaulosky
+// Author :        Matthew Paulosky
+// Solution Name : BlogSite
+// Project Name :  BlogSite.Shared
+// =======================================================
+
+namespace BlogSite.Shared.Interfaces;
 
 /// <summary>
-/// An interface for the application configuration and to access the configuration.
+///   An interface for the application configuration and to access the configuration.
 /// </summary>
 public interface IBlogSiteConfiguration
 {
 
 	/// <summary>
-	/// A reference to the application configuration.
+	///   A reference to the application configuration.
 	/// </summary>
 	Dictionary<string, Dictionary<string, string>> Configuration { get; }
 
 	/// <summary>
-	/// Get the configuration for a specific section.
+	///   Get the configuration for a specific section.
 	/// </summary>
 	/// <param name="sectionName">The section of the application to get configuration settings for </param>
 	/// <returns>Collection of configuration settings</returns>

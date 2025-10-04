@@ -1,18 +1,30 @@
+// =======================================================
+// Copyright (c) 2025. All rights reserved.
+// File Name :     IdentityRedirectManager.cs
+// Company :       mpaulosky
+// Author :        Matthew Paulosky
+// Solution Name : BlogSite
+// Project Name :  BlogSite.Security.Postgres
+// =======================================================
+
 using System.Diagnostics.CodeAnalysis;
 
 namespace BlogSite.Security.Postgres;
 
-internal sealed class IdentityRedirectManager(NavigationManager navigationManager)
+internal sealed class IdentityRedirectManager
+(
+		NavigationManager navigationManager
+)
 {
+
 	public const string StatusCookieName = "Identity.StatusMessage";
 
 	private static readonly CookieBuilder StatusCookieBuilder = new()
 	{
-		SameSite = SameSiteMode.Strict,
-		HttpOnly = true,
-		IsEssential = true,
-		MaxAge = TimeSpan.FromSeconds(5),
+			SameSite = SameSiteMode.Strict, HttpOnly = true, IsEssential = true, MaxAge = TimeSpan.FromSeconds(5)
 	};
+
+	private string CurrentPath => navigationManager.ToAbsoluteUri(navigationManager.Uri).GetLeftPart(UriPartial.Path);
 
 	[DoesNotReturn]
 	public void RedirectTo(string? uri)
@@ -28,14 +40,15 @@ internal sealed class IdentityRedirectManager(NavigationManager navigationManage
 		// During static rendering, NavigateTo throws a NavigationException which is handled by the framework as a redirect.
 		// So as long as this is called from a statically rendered Identity component, the InvalidOperationException is never thrown.
 		navigationManager.NavigateTo(uri);
+
 		throw new InvalidOperationException($"{nameof(IdentityRedirectManager)} can only be used during static rendering.");
 	}
 
 	[DoesNotReturn]
 	public void RedirectTo(string uri, Dictionary<string, object?> queryParameters)
 	{
-		var uriWithoutQuery = navigationManager.ToAbsoluteUri(uri).GetLeftPart(UriPartial.Path);
-		var newUri = navigationManager.GetUriWithQueryParameters(uriWithoutQuery, queryParameters);
+		string uriWithoutQuery = navigationManager.ToAbsoluteUri(uri).GetLeftPart(UriPartial.Path);
+		string newUri = navigationManager.GetUriWithQueryParameters(uriWithoutQuery, queryParameters);
 		RedirectTo(newUri);
 	}
 
@@ -46,12 +59,16 @@ internal sealed class IdentityRedirectManager(NavigationManager navigationManage
 		RedirectTo(uri);
 	}
 
-	private string CurrentPath => navigationManager.ToAbsoluteUri(navigationManager.Uri).GetLeftPart(UriPartial.Path);
-
 	[DoesNotReturn]
-	public void RedirectToCurrentPage() => RedirectTo(CurrentPath);
+	public void RedirectToCurrentPage()
+	{
+		RedirectTo(CurrentPath);
+	}
 
 	[DoesNotReturn]
 	public void RedirectToCurrentPageWithStatus(string message, HttpContext context)
-			=> RedirectToWithStatus(CurrentPath, message, context);
+	{
+		RedirectToWithStatus(CurrentPath, message, context);
+	}
+
 }

@@ -1,43 +1,59 @@
 ﻿@using Microsoft.AspNetCore.Authentication
-@using Microsoft.AspNetCore.Identity
-
-
 @inject SignInManager<PgBlogSiteUser> SignInManager
 @inject IdentityRedirectManager RedirectManager
 
 @if (externalLogins.Length == 0)
 {
-    <div>
-        <p>
-            There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">article
-            about setting up this ASP.NET application to support logging in via external services</a>.
-        </p>
-    </div>
+	<div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mb-4">
+		<p class="text-sm text-blue-800 dark:text-blue-200">
+			There are no external authentication services configured. See this
+			<a href="https://go.microsoft.com/fwlink/?LinkID=532715"
+				 class="underline hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+				article about setting up this ASP.NET application to support logging in via external services
+			</a>.
+		</p>
+	</div>
 }
 else
 {
-    <form class="form-horizontal" action="Account/PerformExternalLogin" method="post">
-        <div>
-            <AntiforgeryToken />
-            <input type="hidden" name="ReturnUrl" value="@ReturnUrl" />
-            <p>
-                @foreach (var provider in externalLogins)
-                {
-                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                }
-            </p>
-        </div>
-    </form>
+	<form action="Account/PerformExternalLogin" method="post">
+		<div>
+			<AntiforgeryToken/>
+			<input type="hidden" name="ReturnUrl" value="@ReturnUrl"/>
+			<div class="flex flex-wrap gap-3">
+				@foreach (var provider in externalLogins)
+				{
+					<button type="submit" class="px-6 py-3 rounded-lg font-medium
+                                           bg-gradient-to-r from-indigo-600 to-purple-600 
+                                           hover:from-indigo-700 hover:to-purple-700
+                                           text-white
+                                           shadow-md hover:shadow-lg
+                                           transform hover:scale-105 active:scale-95
+                                           transition-all duration-200
+                                           border-0
+                                           flex items-center gap-2" name="provider" value="@provider.Name"
+									title="Log in using your @provider.DisplayName account">
+						<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 16 16">
+							<path
+								d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+						</svg>
+						@provider.DisplayName
+					</button>
+				}
+			</div>
+		</div>
+	</form>
 }
 
 @code {
-    private AuthenticationScheme[] externalLogins = [];
 
-    [SupplyParameterFromQuery]
-    private string? ReturnUrl { get; set; }
+	private AuthenticationScheme[] externalLogins = [];
 
-    protected override async Task OnInitializedAsync()
-    {
-        externalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).ToArray();
-    }
+	[SupplyParameterFromQuery] private string? ReturnUrl { get; set; }
+
+	protected override async Task OnInitializedAsync()
+	{
+		externalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).ToArray();
+	}
+
 }

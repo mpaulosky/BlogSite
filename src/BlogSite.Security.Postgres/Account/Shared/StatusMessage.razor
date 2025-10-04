@@ -1,29 +1,44 @@
 ﻿@if (!string.IsNullOrEmpty(DisplayMessage))
 {
-    var statusMessageClass = DisplayMessage.StartsWith("Error") ? "danger" : "success";
-    <div class="alert alert-@statusMessageClass" role="alert">
-        @DisplayMessage
-    </div>
+	var isError = DisplayMessage.StartsWith("Error");
+
+	var alertClasses = isError
+		? "bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800 text-red-800 dark:text-red-200"
+		: "bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800 text-green-800 dark:text-green-200";
+
+	var iconPath = isError
+		? "M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"
+		: "M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5z";
+
+	<div class="@alertClasses rounded-lg border p-4 mb-4 flex items-start gap-3 shadow-sm animate-in fade-in duration-200"
+			 role="alert">
+		<svg class="w-5 h-5 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 16 16">
+			<path d="@iconPath"/>
+		</svg>
+		<div class="flex-1">
+			@DisplayMessage
+		</div>
+	</div>
 }
 
 @code {
-    private string? messageFromCookie;
 
-    [Parameter]
-    public string? Message { get; set; }
+	private string? messageFromCookie;
 
-    [CascadingParameter]
-    private HttpContext HttpContext { get; set; } = default!;
+	[Parameter] public string? Message { get; set; }
 
-    private string? DisplayMessage => Message ?? messageFromCookie;
+	[CascadingParameter] private HttpContext HttpContext { get; set; } = default!;
 
-    protected override void OnInitialized()
-    {
-        messageFromCookie = HttpContext.Request.Cookies[IdentityRedirectManager.StatusCookieName];
+	private string? DisplayMessage => Message ?? messageFromCookie;
 
-        if (messageFromCookie is not null)
-        {
-            HttpContext.Response.Cookies.Delete(IdentityRedirectManager.StatusCookieName);
-        }
-    }
+	protected override void OnInitialized()
+	{
+		messageFromCookie = HttpContext.Request.Cookies[IdentityRedirectManager.StatusCookieName];
+
+		if (messageFromCookie is not null)
+		{
+			HttpContext.Response.Cookies.Delete(IdentityRedirectManager.StatusCookieName);
+		}
+	}
+
 }

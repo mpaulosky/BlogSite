@@ -18,38 +18,50 @@ public class Article
 	/// <summary>
 	///   The unique URL-friendly identifier for the blog post.
 	/// </summary>
-	[Required, Key, MaxLength(300)] public required string Slug { get; init; } = string.Empty;
+	[ Required]
+	[ Key]
+	[ MaxLength(300)]
+	public required string Slug { get; init; } = string.Empty;
 
 	/// <summary>
 	///   The title of the blog post.
 	/// </summary>
-	[Required, MaxLength(200)] public required string Title { get; init; } = string.Empty;
+	[ Required]
+	[ MaxLength(200)]
+	public required string Title { get; init; } = string.Empty;
 
 	/// <summary>
 	///   A brief introduction or summary of the blog post.
 	/// </summary>
-	[Required, MaxLength(500)] public required string Introduction { get; init; } = string.Empty;
+	[ Required]
+	[ MaxLength(500)]
+	public required string Introduction { get; init; } = string.Empty;
 
 	/// <summary>
 	///   The main content of the article, typically in HTML format.
 	/// </summary>
-	[Required] public required string Content { get; init; } = string.Empty;
-	
-	/// <summary>
-	/// Gets or sets the URL of the article's cover image.
-	/// </summary>
-	[Display(Name = "Cover Image URL"), MaxLength(300)] public string? CoverImageUrl { get; init; }
+	[Required]
+	public required string Content { get; init; } = string.Empty;
 
 	/// <summary>
-	/// Gets the date and time when the article was created.
-	/// </summary> 
-	[Required, Display(Name = "Created On")]
+	///   Gets or sets the URL of the article's cover image.
+	/// </summary>
+	[ Display(Name = "Cover Image URL")]
+	[ MaxLength(300)]
+	public string? CoverImageUrl { get; init; }
+
+	/// <summary>
+	///   Gets the date and time when the article was created.
+	/// </summary>
+	[ Required]
+	[ Display(Name = "Created On")]
 	public required DateTimeOffset CreatedOn { get; init; } = DateTime.UtcNow;
 
 	/// <summary>
-	/// Gets or sets a value indicating whether the article is published.
+	///   Gets or sets a value indicating whether the article is published.
 	/// </summary>
-	[Display(Name = "Published")] public bool IsPublished { get; init; }
+	[Display(Name = "Published")]
+	public bool IsPublished { get; init; }
 
 	/// <summary>
 	///   The date the article was published.
@@ -76,7 +88,7 @@ public class Article
 	/// <summary>
 	///   Gets or sets the author information of the article.
 	/// </summary>
-	public BlogSiteUser? Author { get; set; }
+	public Author? Author { get; set; }
 
 	/// <summary>
 	///   Foreign key to the category

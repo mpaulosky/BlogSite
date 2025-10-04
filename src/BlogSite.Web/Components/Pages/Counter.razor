@@ -3,17 +3,43 @@
 
 <PageTitle>Counter</PageTitle>
 
-<h1>Counter</h1>
+<div class="max-w-2xl mx-auto">
+	<h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-8">
+		Counter
+	</h1>
 
-<p role="status">Current count: @currentCount</p>
+	<div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8
+                border border-gray-200 dark:border-gray-700">
+		<div class="text-center mb-8">
+			<p class="text-gray-600 dark:text-gray-400 text-lg mb-4">
+				Current count:
+			</p>
+			<p role="status" class="text-6xl font-bold text-blue-600 dark:text-blue-400
+                      transition-all duration-300">
+				@currentCount
+			</p>
+		</div>
 
-<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+		<button @onclick="IncrementCount" class="w-full px-6 py-4 
+                       bg-blue-600 hover:bg-blue-700 
+                       dark:bg-blue-500 dark:hover:bg-blue-600
+                       text-white font-semibold rounded-lg
+                       shadow-md hover:shadow-lg
+                       transition-all duration-200
+                       focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
+                       active:scale-95">
+			Click me
+		</button>
+	</div>
+</div>
 
 @code {
-    private int currentCount = 0;
 
-    private void IncrementCount()
-    {
-        currentCount++;
-    }
+	private int currentCount  ;
+
+	private void IncrementCount()
+	{
+		currentCount++;
+	}
+
 }
