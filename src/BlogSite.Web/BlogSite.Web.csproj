@@ -7,13 +7,15 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<InternalsVisibleTo Include="BlogSite.Web.Tests.E2E"/>
-		<InternalsVisibleTo Include="BlogSite.Web.Tests.Bunit"/>
-		<InternalsVisibleTo Include="BlogSite.Web.Tests.Unit"/>
+		<InternalsVisibleTo Include="BlogSite.Web.Tests.E2E" />
+		<InternalsVisibleTo Include="BlogSite.Web.Tests.Bunit" />
+		<InternalsVisibleTo Include="BlogSite.Web.Tests.Unit" />
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Azure.Identity" />
 		<PackageReference Include="markdig" />
+		<PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid" />
 		<PackageReference Include="Microsoft.Extensions.Localization" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" VersionOverride="9.0.9">
