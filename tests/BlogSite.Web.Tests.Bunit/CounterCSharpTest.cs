@@ -1,8 +1,17 @@
-namespace BlogSite.Web.Tests.Bunit;
+// =======================================================
+// Copyright (c) 2025. All rights reserved.
+// File Name :     CounterCSharpTest.cs
+// Company :       mpaulosky
+// Author :        Matthew Paulosky
+// Solution Name : BlogSite
+// Project Name :  BlogSite.Web.Tests.Bunit
+// =======================================================
+
+namespace BlogSite.Web;
 
 /// <summary>
-/// These tests are written entirely in C#.
-/// Learn more at https://bunit.dev/docs/getting-started/writing-tests.html#creating-basic-tests-in-cs-files
+///   These tests are written entirely in C#.
+///   Learn more at https://bunit.dev/docs/getting-started/writing-tests.html#creating-basic-tests-in-cs-files
 /// </summary>
 
 // The full qualified namespace for bUnit TestContext is used here as xunit v3 also offers a TestContext class
@@ -13,9 +22,9 @@ public class CounterCSharpTest : BunitContext
 	public void CounterStartsAtZero()
 	{
 		// Arrange
-		var cut = Render<Counter>();
+		IRenderedComponent<Counter> cut = Render<Counter>();
 
-		// Assert that content of the paragraph shows counter at zero
+		// Assert that the content of the paragraph shows a counter at zero
 		cut.Find("p").MarkupMatches("<p>Current count: 0</p>");
 	}
 
@@ -23,7 +32,7 @@ public class CounterCSharpTest : BunitContext
 	public void ClickingButtonIncrementsCounter()
 	{
 		// Arrange
-		var cut = Render<Counter>();
+		IRenderedComponent<Counter> cut = Render<Counter>();
 
 		// Act - click button to increment counter
 		cut.Find("button").Click();

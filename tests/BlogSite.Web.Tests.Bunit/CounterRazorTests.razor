@@ -13,7 +13,7 @@ Learn more at https://bunit.dev/docs/getting-started/writing-tests.html#creating
 		// Arrange
 		var cut = Render(@<Counter/>);
 
-		// Assert that content of the paragraph shows counter at zero
+		// Assert that the content of the paragraph shows a counter at zero
 		cut.Find("p").MarkupMatches(@<p>Current count: 0</p>);
 	}
 
